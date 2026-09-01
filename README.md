@@ -1,4 +1,6 @@
-# Geografia Agrária — Análise Territorial do Rio São Bartolomeu 
+# Projeto de Estágio de Graduação Aplicado a Pesquisa em Geografia Agrária: Os Assentamentos da Reforma Agrária na bacia hidrográfica do Rio São Bartolomeu / DF
+
+**A Cartografia Digital e a Análise de Dados Geográficos como Práxis na Interpretação Crítica do Território** 
 
 Repositório técnico-científico destinado à documentação dos geoprocessos, análises espaciais, procedimentos estatísticos e produtos cartográficos desenvolvidos ao longo do estágio em Geografia Agrária, com área de aplicação nas **Unidades Hidrográficas do Alto Rio São Bartolomeu, Médio Rio São Bartolomeu e Ribeirão Sobradinho inseridos na bacia hidrog´rafica do Rio São Bartolomeu, Distrito Federal**.
 
