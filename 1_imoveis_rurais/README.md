@@ -148,8 +148,11 @@ As bases representam diferentes sistemas cadastrais e podem apresentar diferenç
 
 Por isso, a integração espacial deve ser entendida como procedimento analítico e não como homologação cadastral.
 
-´´´text
+
 1.13 Estrutura dos arquivos
+
+´´´text 
+
 1_imoveis_rurais/
 │
 ├── README.md
@@ -177,8 +180,6 @@ A estrutura fundiária constitui uma das bases de integração do projeto.
              Análise territorial
 
 ``` 
-
-Essa integração permite investigar como diferentes condições ambientais e produtivas se distribuem sobre diferentes estruturas de apropriação espacial da terra.
 
 
 
