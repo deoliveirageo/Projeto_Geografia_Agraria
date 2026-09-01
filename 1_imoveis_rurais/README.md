@@ -86,10 +86,10 @@ Realiza o recorte das unidades hidrográficas utilizadas como referência espaci
 
 Organiza os imóveis em classes de área, permitindo a análise da distribuição dos estabelecimentos segundo seu tamanho em módulos fiscais. Sendo que, 1 módulo fiscal no Distrito Federal é constituído de até 5 hectares. Desta forma, as classes são: 
 
-# < 1 módulo fiscal = Minifúndio; 
-# 1 - 4 ,ódulos fiscais = Pequena Propriedade; 
-# 5 - 15 módulos fiscais = Média Propriedade; 
-# > 15 módulos fiscais = Latifúndio; 
+ < 1 módulo fiscal = Minifúndio; 
+ 1 - 4 módulos fiscais = Pequena Propriedade; 
+ 5 - 15 módulos fiscais = Média Propriedade; 
+ > 15 módulos fiscais = Latifúndio; 
 
 **estatisticas_fundiarias.sql**
 
