@@ -71,7 +71,7 @@ contagem de imóveis;
 cálculo da área ocupada;
 cruzamento com unidades hidrográficas.
 
-# 1.7 Scripts
+# 1.6 Scripts
 
 
 **car_aoi.sql** 
@@ -95,7 +95,7 @@ Organiza os imóveis em classes de área, permitindo a análise da distribuiçã
 
 Produz estatísticas espaciais relacionadas à quantidade de imóveis e à área ocupada por cada classe fundiária, gerando estatíticas de concentração fundiária. 
 
-# 1.8 Classificação fundiária
+# 1.7 Classificação fundiária
 
 A classificação por estratos de área constitui uma etapa analítica para avaliar a distribuição espacial dos imóveis.
 
@@ -113,7 +113,7 @@ Estatística
       ↓
 Interpretação da estrutura fundiária
 
-# 1.9 Indicadores produzidos
+# 1.8 Indicadores produzidos
 
 A análise permite produzir indicadores como:
 
@@ -128,7 +128,7 @@ distribuição espacial dos diferentes estratos.
 
 Esses indicadores permitem comparar a participação relativa entre número de imóveis e área ocupada.
 
-# 1.10 Interpretação geográfica
+# 1.9 Interpretação geográfica
 
 A interpretação dos resultados deve considerar a relação entre:
 
@@ -140,7 +140,7 @@ Essa relação constitui uma das principais bases para a identificação de padr
 
 A análise espacial também permite investigar a distribuição desses padrões em relação às unidades hidrográficas e às demais dimensões territoriais analisadas no projeto.
 
-# 1.11 Limitações
+# 1.10 Limitações
 
 Os resultados devem ser interpretados considerando as características das bases cadastrais.
 
@@ -149,7 +149,7 @@ As bases representam diferentes sistemas cadastrais e podem apresentar diferenç
 Por isso, a integração espacial deve ser entendida como procedimento analítico e não como homologação cadastral.
 
 
-# 1.12 Estrutura dos arquivos
+# 1.11 Estrutura dos arquivos
 
 ```text
 
