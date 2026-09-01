@@ -34,8 +34,7 @@ Nesse sentido, o projeto parte da seguinte questão:
 
 > **Como a estrutura fundiária, o uso e cobertura da terra, a dinâmica da vegetação e a organização dos recursos hídricos se distribuem espacialmente e se articulam na configuração territorial agrária da área de estudo?**
 
-# O objetivo inicial do trabalho de construção de uma base cadastral qualitativa, de produtores rurais dos assentamentos da área de estudo é extrapolada com essa nova proposta de compreender as dificuldades do campesinato dentro de uma perspectiva crítica e
- realizar uma leitura integrada geográfica do território, considerando as relações entre sociedade, produção, propriedade da terra e natureza.
+O objetivo inicial do trabalho de construção de uma base cadastral qualitativa, de produtores rurais dos assentamentos da área de estudo é extrapolada com essa nova proposta de compreender as dificuldades do campesinato dentro de uma perspectiva crítica e realizar uma leitura integrada geográfica do território, considerando as relações entre sociedade, produção, propriedade da terra e natureza.
 
 ---
 
