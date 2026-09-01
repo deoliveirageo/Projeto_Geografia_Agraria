@@ -102,7 +102,7 @@ A análise não interpreta a existência de uma outorga como equivalente automá
 
 ---
 
-## 4.5 Hidrografia como estrutura territorial
+## 4.6 Hidrografia como estrutura territorial
 
 A rede hidrográfica constitui uma estrutura espacial que conecta diferentes porções do território.
 
@@ -121,7 +121,7 @@ No projeto, a hidrografia constitui também uma base de integração entre os de
 
 # 5. Objetivo geral
 
-**Analisar a organização territorial rural da área de estudo por meio da integração de geotecnologias, bases fundiárias, dados de uso e cobertura da terra, sensoriamento remoto, informações hidrogeológicas e análise da rede hidrográfica.**
+Analisar a organização territorial rural da área de estudo por meio da integração de geotecnologias, bases fundiárias, dados de uso e cobertura da terra, sensoriamento remoto, informações hidrogeológicas e análise da rede hidrográfica.**
 
 ---
 
@@ -150,7 +150,7 @@ No projeto, a hidrografia constitui também uma base de integração entre os de
 ---
 
 
-## 8. Eixos temáticos
+## 7. Eixos temáticos
 
 
 1. Imóveis rurais e estrutura fundiária
@@ -167,20 +167,20 @@ Análise temporal do comportamento da vegetação por meio do NDVI, incluindo s�
 
 ## Dados Computados: 
 
-**114 imagens para o cálculo de NDVI médio sazonal no período seco (Junho à Setembro) de 2025;** 
-**17 imagens para o cálculo do NDVI médio sazonal no período chuvoso (Novembro à Março) de 2025-2026;**
-**552 imagens para o cálculo de NDVI histórico médio sazonal no período seco de 2017-2024;**
-**140 imagens para o cálculo do NDVI méddio histórico sazonal no período chuvisi de 2017-2024.**
+114 imagens para o cálculo de NDVI médio sazonal no período seco (Junho à Setembro) de 2025;
+17 imagens para o cálculo do NDVI médio sazonal no período chuvoso (Novembro à Março) de 2025-2026;
+552 imagens para o cálculo de NDVI histórico médio sazonal no período seco de 2017-2024;
+140 imagens para o cálculo do NDVI méddio histórico sazonal no período chuvisi de 2017-2024.
 
 Análise sazonal de dados meteorológicos sazonais de precipitação acumulada e de déficit hídrico acumulado no GEE com os datasets CHIRPS e Terra Climate; 
 
 
 ## Dados Computados: 
 
-**151 Imagens CHIRPS (Percipitação Acumulada mm/d) - estação chuvosa (Novembro à Março) 2024-2025;**
-**122 Imagens CHIRPS (Percipitação Acumulada mm/d) - estação seca (Junho à Setembro) 2024;**
-**2 Imagens TerraClimate (Déficit Hídrico Acumulado mm/m) - estação chuvosa (Novembro à Março)2024-2025;**
-**4 Imagens TerraClimate (Déficit Hídrico Acumulado mm/m )- estação seca (Junho à Setembro) 2024;**
+151 Imagens CHIRPS (Percipitação Acumulada mm/d) - estação chuvosa (Novembro à Março) 2024-2025;
+122 Imagens CHIRPS (Percipitação Acumulada mm/d) - estação seca (Junho à Setembro) 2024;
+2 Imagens TerraClimate (Déficit Hídrico Acumulado mm/m) - estação chuvosa (Novembro à Março)2024-2025;
+4 Imagens TerraClimate (Déficit Hídrico Acumulado mm/m )- estação seca (Junho à Setembro) 2024;
 
 
 
@@ -213,8 +213,10 @@ Pandas
 GeoPandas
 Matplotlib
 
+## 8 Estrutura do repositório
 
-10. Estrutura do repositório
+```text
+
 Projeto_Geografia_Agraria/
 │
 ├── README.md
@@ -238,17 +240,18 @@ Projeto_Geografia_Agraria/
 │
 └── 5_hidrografia/
 
+```
 A numeração dos diretórios corresponde aos cinco eixos analíticos do projeto.
 
 Dentro de cada eixo, os diretórios representam as diferentes etapas de processamento e as respectivas tecnologias empregadas.
 
-11. Produtos
+## 9. Produtos
 
 Os resultados do projeto são organizados em diferentes tipos de produtos:
 
 
 
-13. Limitações
+## 10. Limitações
 
 As análises apresentadas neste repositório devem ser compreendidas dentro das limitações próprias das bases utilizadas.
 
@@ -263,13 +266,13 @@ necessidade de validação de campo para determinadas interpretações.
 
 Portanto, os produtos cartográficos constituem instrumentos de análise espacial e não devem ser interpretados isoladamente das respectivas metodologias.
 
-14. Referências fundamentais
+## 11. Referências fundamentais
 
 OLIVEIRA, Ariovaldo Umbelino de. Modo de Produção Capitalista, Agricultura e Reforma Agrária. São Paulo: FFLCH, 2007.
 
 ADASA. Manual Técnico e Administrativo de Outorga de Direito de Uso de Recursos Hídricos no Distrito Federal. Brasília: Adasa/SRH, 2021.
 
-15. Licença e citação
+## 12. Licença e citação
 
 Este repositório tem finalidade acadêmica e técnico-profissional, destinando-se à documentação dos procedimentos de geoprocessamento e análise espacial desenvolvidos durante o estágio.
 
