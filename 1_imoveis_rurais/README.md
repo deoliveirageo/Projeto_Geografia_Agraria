@@ -151,7 +151,7 @@ Por isso, a integração espacial deve ser entendida como procedimento analític
 
 1.13 Estrutura dos arquivos
 
-´´´text 
+```text
 
 1_imoveis_rurais/
 │
@@ -179,7 +179,7 @@ A estrutura fundiária constitui uma das bases de integração do projeto.
                       ▼
              Análise territorial
 
-``` 
+...
 
 
 
