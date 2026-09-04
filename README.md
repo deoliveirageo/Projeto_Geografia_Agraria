@@ -240,7 +240,7 @@ Projeto_Geografia_Agraria/
     ├── 1_qgis/
     └── 2_postgis/
 
-´´´
+```
 
 A numeração dos diretórios corresponde aos cinco eixos analíticos do projeto.
 
@@ -295,4 +295,5 @@ Este repositório tem finalidade acadêmica e técnico-profissional, destinando-
 
 - **Mapa 5 — Hidrografia e Acessibilidade à Água**  
   [Acessar interpretação no SpatialNode](Ihttps://spatialnode.net/projects/hidrografia-01a0bc)
-´´´ 
+
+``` 
