@@ -278,8 +278,10 @@ STÉDILE, João Pedro (org.). A questão agrária no Brasil: o debate na esquerd
 
 Este repositório tem finalidade acadêmica e técnico-profissional, destinando-se à documentação dos procedimentos de geoprocessamento e análise espacial desenvolvidos durante o estágio.
 
+
+## Acesso à coleção de mapas no Spatialnode: 
+
 ```text
-## Acesso aos mapas: 
 
 - **Mapa 1 — Imóveis Rurais**  
   [Acessar interpretação no SpatialNode](https://spatialnode.net/projects/imoveis-rurais-estrutura-fundiaria-a301ab)
