@@ -120,7 +120,7 @@ tabela.plot(
 # ============================================================
 
 ax.set_title(
-    "NDVI Médio Histórico por Classe Fundiária",
+    "NDVI Médio Histórico por Classe Fundiária (2017-2024)",
     fontsize=24,
     fontweight="bold",
     pad=18

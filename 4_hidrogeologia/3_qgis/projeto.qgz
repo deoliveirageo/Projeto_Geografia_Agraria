@@ -1,0 +1,744 @@
+Documentação e fluxo metodológico utilizado  no QGIS para elaboração do mapa e Hidrogeologia.
+
+
+## 1. Identificação do projeto
+
+Este diretório contém a documentação e a organização metodológica do projeto QGIS (.qgz) utilizado para a elaboração dos produtos cartográficos relacionados à hidrogeologia, risco de perda de recarga de aquíferos e pressão antrópica sobre áreas de recarga na área de estudo, no Distrito Federal.
+
+O projeto foi estruturado para integrar informações hidrogeológicas, geomorfológicas, de uso e cobertura do solo, unidades hidrográficas e registros de outorga de águas subterrâneas, permitindo relacionar as condições naturais de recarga com as formas de apropriação e utilização do território.
+
+A organização do projeto segue uma lógica de separação entre:
+
+DADOS DE REFERÊNCIA
+        │
+        ├── Hidrogeologia
+        ├── Risco de perda de recarga
+        ├── Relevo
+        ├── Uso e cobertura
+        ├── Unidades hidrográficas
+        └── Outorgas
+                │
+                ▼
+       PROCESSAMENTO QGIS
+                │
+        ├── Recortes
+        ├── Interseções
+        ├── Reclassificações
+        ├── Rasterização
+        ├── Calculadora Raster
+        ├── Estatísticas
+        └── Simbologia
+                │
+                ▼
+          PRODUTOS FINAIS
+                │
+        ├── Risco de perda de recarga
+        ├── Áreas prioritárias
+        ├── Pressão antrópica
+        └── Estatísticas cartográficas
+
+## 2. Sistema de referência espacial
+
+As operações espaciais foram padronizadas para o sistema:
+
+SIRGAS 2000 / UTM Zona 23S
+EPSG:31983
+
+O sistema projetado em coordenadas métricas foi utilizado para as operações que dependem de medidas de área, distância, recorte espacial e representação cartográfica.
+
+Antes do processamento, as camadas foram verificadas quanto à compatibilidade do sistema de referência espacial. Quando necessário, foi realizada a reprojeção para o SRC de trabalho por meio das ferramentas nativas do QGIS.
+
+A utilização de um SRC projetado permite que as áreas calculadas sejam expressas em unidades métricas e posteriormente convertidas para hectares.
+
+## 3. Camadas utilizadas no QGIS: 
+
+
+01_BASE_CARTOGRAFICA
+
+Camadas utilizadas como referência espacial:
+
+unidades hidrográficas do Ribeirão Sobradinho, Alto Rio São Bartolomeu e Médio Rio São Bartolomeu; 
+polígonos dos assentamentos rurais da reforma agrária contidos nos limites da área de estudo.
+
+02_HIDROGEOLOGIA
+
+Camadas relacionadas aos sistemas aquíferos:
+
+grupos hidrogeológicos;
+sistemas;
+subsistemas;
+domínio poroso;
+domínio fraturado/fissuro-cárstico;
+
+
+03_RISCO_RECARGA
+
+Produtos relacionados ao modelo de risco:
+
+risco de perda de recarga de aquífero;
+classes de risco;
+áreas prioritárias de recarga.
+
+04_RELEVO
+
+Camadas utilizadas na caracterização geomorfológica:
+
+tipos de relevo; 
+raster reclassificado com tipos de relevo e compartimentação geomorfológica; 
+
+
+Camadas de uso e cobertura do solo:
+
+raster de uso e cobertura do solo; 
+raster reclassificado com as categorias utilizadas na análise de pressão antrópica.
+
+06_OUTORGAS
+
+Camadas relacionadas às captações e aos usos de água:
+
+pontos de outorga;
+captações subterrâneas;
+atributos de finalidade de uso;
+vazão outorgada; 
+
+
+07_PRODUTOS
+
+Camadas finais utilizadas na composição dos mapas:
+
+risco de perda de recarga de aquífero;
+áreas de recarga prioritárias e não prioritárias;
+outorgas de captação subterrânea recortadas na área de estudo; 
+estatísticas de outorgas nos limites da área; 
+raster reclassificado de áreas prioritárias e não prioritárias de recarga conforme compartimentação geomorfológica; 
+raster de uso e cobertura do solo reclassificado segundo tipos de uso que exercem maior pressão antrópica sobre áreas de recarga; 
+modelo final com algebra de mapas cruzando os rasters reclassificados de uso e cobertura e compartimentação geomorfológica. 
+
+
+
+## 4. Área de estudo e recorte hidrogeológico
+
+A área de estudo foi utilizada como máscara espacial para a preparação dos dados empregados na análise.
+
+As unidades hidrográficas constituem o principal recorte territorial para agregação e interpretação dos dados relacionados às águas subterrâneas. A adoção de unidades hidrográficas como referência espacial é coerente com a metodologia do ZEE-DF, que utilizou as unidades hidrográficas como unidades territoriais de análise. O ZEE-DF trabalhou com as 41 unidades hidrográficas distritais estabelecidas na base oficial utilizada pelo zoneamento.
+
+No projeto foram destacadas as unidades hidrográficas:
+
+Alto Rio São Bartolomeu;
+Médio Rio São Bartolomeu;
+Ribeirão Sobradinho.
+
+## 5. Delimitação da área hidrogeológica de análise
+
+Para a análise específica dos sistemas aquíferos, as camadas hidrogeológicas foram inicialmente organizadas de acordo com sua hierarquia:
+
+Grupo
+  │
+  └── Sistema
+        │
+        └── Subsistema
+
+A área de estudo foi então utilizada para delimitar a ocorrência espacial dos grupos, sistemas e subsistemas incidentes sobre o recorte analisado.
+
+O procedimento foi realizado no QGIS utilizando operações vetoriais de:
+
+seleção por localização;
+interseção;
+recorte pela camada máscara;
+dissolução, quando necessária para agregação de classes;
+cálculo de área.
+
+A operação de Interseção (Intersection) foi utilizada para gerar as geometrias resultantes da sobreposição entre a área de estudo e as unidades hidrogeológicas.
+
+O resultado constitui um subproduto de delimitação espacial utilizado para identificar quais grupos, sistemas e subsistemas hidrogeológicos estão efetivamente presentes na área analisada.
+
+## 6. Referencial metodológico — ZEE-DF
+
+O Mapa de Risco de Perda de Recarga de Aquífero utilizado no projeto tem como referência metodológica a Matriz Ecológica do Zoneamento Ecológico-Econômico do Distrito Federal (ZEE-DF).
+
+O ZEE-DF originalmente produziu o mapa como Mapa de Sensibilidade dos Aquíferos à Redução da Recarga e da Produção Hídrica, posteriormente reinterpretado como mapa de risco.
+
+A metodologia foi desenvolvida considerando três variáveis explicativas:
+
+características do domínio poroso e sua condutividade hidráulica;
+compartimentação geomorfológica;
+vazão dos sistemas e subsistemas dos domínios fraturado e fissuro-cárstico.
+
+A estrutura metodológica do ZEE-DF pode ser expressa por:
+
+$$
+Sa = \frac{2C + G + V}{4}
+$$
+
+onde:
+
+Sa = sensibilidade dos aquíferos à redução da recarga e da produção hídrica;
+C = condutividade hidráulica do sistema poroso;
+G = compartimentação geomorfológica;
+V = vazão média registrada pelos sistemas fraturados e fissuro-cársticos.
+
+## 7. Variável de condutividade hidráulica
+
+No modelo original, o domínio poroso foi associado aos tipos de solos predominantes e aos valores de condutividade hidráulica.
+
+A classificação adotada pelo ZEE-DF estabelece cinco níveis de sensibilidade:
+
+Sistema	Classes de solo	                                                         Sensibilidade	                                        Valor
+P4	Cambissolos, Neossolos Litólicos e Neossolos Flúvicos	                  Muito baixa	                                         1
+P3	Plintossolos, Gleissolos e Espodossolos	                                  Baixa	                                                 2
+P2	Nitossolos, Chernossolos e Argissolos	                                  Média                                                  3
+P1	Latossolos Vermelhos, Vermelho-Amarelos e Neossolos Quartzarênicos	  Alta/Muito alta	                                 4/5
+
+*Considerando que predominam os Cambissolos na área de estudo não inclui-se este variável na reclassificação da camada de solos quanto a áreas prioritárias e não prioritárias de recarga*
+
+O ZEE-DF destaca que o domínio poroso exerce papel fundamental na recarga dos aquíferos por meio da infiltração da água da chuva.
+
+## 8. Variável geomorfológica
+
+A segunda variável do modelo é a compartimentação geomorfológica.
+
+O ZEE-DF considera que a morfologia da paisagem controla parte importante do processo de recarga, relacionado aos fluxos vertical e lateral da água infiltrada.
+
+A classificação original é:
+
+Compartimentação	                Sensibilidade           Valor
+Rampas íngremes	                        Muito baixa	          1
+Vales dissecados	                Baixa	                  2
+Planos intermediários	                Média	                  3
+Rebordos	                        Alta	                  4
+Planos elevados	                        Muito alta	          5
+
+O ZEE-DF considera os planos elevados, rebordos e planos intermediários como áreas mais propícias à efetivação da recarga, enquanto rampas íngremes e vales dissecados apresentam menor contribuição.
+
+## 9. Variável de vazão dos sistemas aquíferos
+
+A terceira variável corresponde às vazões registradas nos sistemas e subsistemas dos domínios fraturado e fissuro-cárstico.
+
+O pressuposto metodológico adotado pelo ZEE-DF é que sistemas mais produtivos apresentam maior sensibilidade à redução da recarga e da produção hídrica, uma vez que interferências negativas podem resultar em perda significativa de produção.
+
+As vazões médias dos sistemas e subsistemas constituem, portanto, uma variável de caracterização da produção hídrica subterrânea.
+
+## 10. Incorporação do mapa de risco ao projeto
+
+O mapa de Risco de Perda de Recarga foi incorporado ao projeto QGIS como camada temática de referência.
+
+As classes utilizadas na representação cartográfica são:
+
+1 — Muito baixo
+2 — Baixo
+3 — Médio
+4 — Alto
+5 — Muito alto
+
+Na representação do ZEE-DF, aproximadamente:
+
+19,7% do território corresponde à classe muito baixa;
+15,5% à classe baixa;
+37,9% à classe média;
+25,4% à classe alta;
+0,3% à classe muito alta.
+
+*Importante: a utilização dessa camada no projeto não deve ser interpretada como uma recalibração ou reconstrução integral do modelo original do ZEE-DF. O produto é tratado como referência hidroambiental oficial, sobre a qual foram realizadas análises espaciais complementares no QGIS.*
+
+
+## 11. Compartimentação do relevo para identificação das áreas prioritárias
+
+Para a elaboração própria das áreas prioritárias utilizadas na análise de pressão antrópica, foi utilizada a camada de compartimentação do relevo disponibilizada pela EMBRAPA.
+
+Foram selecionadas as classes associadas às superfícies mais favoráveis à recarga:
+
+Plano;
+Plano e Suave Ondulado;
+Suave Ondulado.
+
+Essa seleção constitui uma adaptação operacional para a escala e objetivo da presente análise, inspirada no princípio geomorfológico utilizado pelo ZEE-DF, segundo o qual as áreas planas e os planos elevados apresentam melhores condições para a efetivação da recarga.
+
+# 13. Reclassificação do relevo
+
+A seleção das classes foi realizada no QGIS.
+
+A camada vetorial foi inicialmente submetida à seleção dos atributos correspondentes às classes de interesse.
+
+Em seguida, as classes foram agrupadas em uma variável binária:
+
+0 = Não prioritária
+1 = Prioritária
+
+O procedimento permitiu transformar uma classificação geomorfológica originalmente composta por diversas classes em uma variável temática destinada ao cruzamento com o uso e cobertura do solo.
+
+# 14. Rasterização da camada de relevo
+
+Como o uso e cobertura do solo utilizado na análise está estruturado em formato raster, a camada de relevo selecionada foi convertida para formato matricial.
+
+Foi utilizada a ferramenta:
+
+Rasterizar (vetor para raster)
+
+do QGIS.
+
+Durante a rasterização foram definidos:
+
+campo/valor de classificação;
+extensão espacial;
+resolução do pixel;
+SRC;
+alinhamento espacial com o raster de uso e cobertura.
+
+O resultado foi um raster binário:
+
+0 — Não prioritária
+1 — Área prioritária de recarga
+
+# 15. Compatibilização dos rasters
+
+Antes do cruzamento entre as variáveis matriciais, foi verificada a compatibilidade espacial dos rasters.
+
+Foram considerados:
+
+mesmo SRC;
+mesma extensão;
+mesma resolução;
+mesma dimensão de pixel;
+mesma origem/alinhamento da grade;
+tratamento dos valores NoData.
+
+Essa etapa é necessária porque operações célula-a-célula na Calculadora Raster pressupõem correspondência espacial entre os pixels.
+
+## 16. Uso e cobertura do solo
+
+O raster de uso e cobertura do solo da coleção 10 do Mapbiomas (2024) foi utilizado como variável representativa da ocupação territorial incidente sobre as áreas de recarga.
+
+A camada foi:
+
+carregada no QGIS;
+verificada quanto ao SRC;
+recortada pela área de estudo;
+submetida à seleção das classes de interesse;
+reclassificada para o cruzamento com as áreas prioritárias.
+
+As classes destacadas no produto final são:
+
+Formação Savânica;
+Pastagem;
+Área Urbanizada;
+Plantação de Soja.
+
+As demais classes foram agrupadas na categoria de referência.
+
+# 17. Reclassificação do uso e cobertura
+
+A reclassificação foi realizada por meio da Calculadora Raster e/ou ferramenta de reclassificação disponível no QGIS.
+
+Os valores temáticos utilizados no processamento foram organizados da seguinte forma:
+
+0 = Outros usos
+1 = Formação Savânica
+2 = Pastagem
+3 = Área Urbanizada
+4 = Plantação de Soja
+
+As classes 2, 3 e 4 da reclassificação de uso e cobertura baseiam-se na premissa de que são áreas que sofreram alterações antrópicas mais acentuadas, como impermeabilização do solo, compactação e processos de tecnificação agrícola com maquinário, interfereindo diretamente nas taxas de infiltração e escoamento de águas pluviais. A classe 0 representa um mosaico de outros uso do solo de menor impacto, e a classe 1 de Formação Savânica, as áreas de dinâmica natural de infiltração e escoamento. 
+
+Essa etapa reduz a complexidade do raster original e cria uma variável temática específica para a análise de pressão sobre áreas prioritárias.
+
+
+# 18. Cruzamento entre relevo e uso do solo
+
+A identificação da pressão antrópica foi realizada por meio do cruzamento matricial entre:
+
+Raster de prioridade de recarga
+              ×
+Raster de uso e cobertura
+
+A operação foi executada no QGIS por meio da Calculadora Raster.
+
+A lógica espacial é:
+
+Área não prioritária
+        +
+qualquer uso
+        ↓
+Áreas não prioritárias de recarga com diferentes usos
+
+Área prioritária
+        +
+Formação Savânica
+        ↓
+Formação Savânica em Área de Recarga Prioritária
+
+Área prioritária
+        +
+Pastagem
+        ↓
+Pastagem em Área de Recarga Prioritária
+
+Área prioritária
+        +
+Área Urbanizada
+        ↓
+Área Urbanizada em Área de Recarga Prioritária
+
+Área prioritária
+        +
+Soja
+        ↓
+Plantação de Soja em Área de Recarga Prioritária
+
+O produto resultante representa, portanto, a coincidência espacial entre as classes de uso/cobertura e as áreas geomorfologicamente prioritárias para recarga.
+
+# 19. Classificação temática do mapa de pressão antrópica
+
+O raster final foi organizado nas seguintes categorias:
+
+0 — Áreas não prioritárias de recarga de aquífero
+1 — Formação Savânica em áreas de recarga
+2 — Pastagem em áreas de recarga
+3 — Área Urbanizada em áreas de recarga
+4 — Plantação de Soja em áreas de recarga
+
+A classificação permite distinguir as áreas prioritárias preservadas das áreas onde ocorre conversão para usos agropecuários ou urbanos.
+
+A interpretação do mapa deve considerar que “pressão antrópica” não significa que todas as classes antrópicas possuam a mesma intensidade de impacto hidrogeológico. O produto identifica a sobreposição espacial do uso do território com áreas prioritárias de recarga; a intensidade ou magnitude dos impactos deve ser analisada posteriormente a partir de variáveis adicionais.
+
+# 20. Cálculo das áreas das classes
+
+A quantificação das classes foi realizada exclusivamente no QGIS.
+
+Para o raster final, foi utilizado o procedimento de cálculo de área por classe, utilizando a resolução espacial do raster e a contagem de pixels de cada categoria.
+
+As áreas foram convertidas para hectares:
+
+$$ Área_{ha} = \frac{N_{pixels}\times Área_{pixel}}{10.000} $$
+
+onde:
+
+Npixels = número de pixels pertencentes à classe;
+Áreapixel = área de cada pixel em m²;
+10.000 = fator de conversão de m² para hectares.
+
+O resultado foi utilizado para construir a tabela de áreas e subsidiar o gráfico apresentado no layout.
+
+# 21. Valores obtidos para o produto cartográfico
+
+O mapa apresentado no projeto registra as seguintes áreas:
+
+Classe	                                                Área (ha)
+Áreas não prioritárias de recarga	                11.893,61
+Formação Savânica em áreas de recarga	                25.105,73
+Pastagem em áreas de recarga	                        7.400,47
+Área Urbanizada em áreas de recarga	                4.889,96
+Plantação de Soja em áreas de recarga	                5.021,75
+Total	                                                54.311,52
+
+Esses valores correspondem ao produto cartográfico apresentado na figura do projeto.
+
+## 22. Outorgas de águas subterrâneas
+
+Os pontos de outorga foram incorporados como informação pontual de exploração dos recursos hídricos subterrâneos.
+
+A utilização dos dados de outorga possui respaldo na estrutura de gestão hídrica da Adasa. O Manual Técnico e Administrativo estabelece que a extração de água de aquíferos subterrâneos para consumo final ou como insumo de processo produtivo, por meio de poços tubulares e determinados poços manuais, está sujeita aos instrumentos de outorga/registro correspondentes.
+
+No QGIS, os pontos foram:
+
+carregados como camada vetorial;
+submetidos à conferência do SRC;
+recortados pela área de estudo;
+sobrepostos às unidades hidrográficas;
+sobrepostos às áreas de risco;
+utilizados como referência espacial para a análise da pressão sobre os recursos subterrâneos.
+
+
+## 23. Integração entre risco, pressão e outorgas
+
+A interpretação integrada utiliza três componentes:
+
+RISCO HIDROGEOLÓGICO
+        │
+        ▼
+Risco de perda de recarga
+        │
+        +
+        │
+        ▼
+CONDIÇÃO DE OCUPAÇÃO
+        │
+        ▼
+Uso/cobertura sobre áreas de recarga
+        │
+        +
+        │
+        ▼
+EXPLORAÇÃO HÍDRICA
+        │
+        ▼
+Pontos de outorga
+
+Essa estrutura permite observar espacialmente a coincidência entre:
+
+áreas de maior sensibilidade à perda de recarga;
+áreas prioritárias para manutenção da recarga;
+usos agropecuários;
+áreas urbanizadas;
+pontos de captação subterrânea.
+
+*O cruzamento não implica causalidade automática. A ocorrência de uma outorga em uma área de maior risco, por exemplo, indica coincidência espacial entre exploração e condição hidrogeológica, mas não permite afirmar, isoladamente, que a captação seja responsável por eventual redução da disponibilidade hídrica.*
+
+# 24. Sobreposição das unidades hidrográficas
+
+As unidades hidrográficas foram mantidas como referência espacial em ambos os mapas.
+
+No mapa de pressão antrópica, as unidades hidrográficas permitem interpretar a distribuição dos usos e das captações dentro do sistema de drenagem.
+
+No mapa de risco, funcionam como referência territorial para a leitura da distribuição das classes de risco.
+
+A utilização das unidades hidrográficas como unidade territorial de análise é coerente com a abordagem do ZEE-DF, que adotou as unidades hidrográficas como topologias iniciais para análise dos impactos ambientais sinérgicos.
+
+# 25. Procedimentos vetoriais utilizados no QGIS
+
+Os principais algoritmos de geoprocessamento vetorial empregados na produção dos mapas foram:
+
+Recortar (Clip)
+
+Utilizado para limitar as camadas vetoriais à área de estudo.
+
+Interseção (Intersection)
+
+Utilizado para gerar as áreas resultantes da sobreposição entre:
+
+área de estudo e sistemas hidrogeológicos;
+área de estudo e unidades territoriais;
+área de estudo e classes de solo; 
+área der estudo e mapa de risco de perda de recarga de aquíferos; 
+outros recortes; 
+
+Dissolver (Dissolve)
+
+Utilizado quando necessário para agrupar geometrias pertencentes à mesma categoria temática.
+
+Calcular geometria
+
+Utilizado para obtenção das áreas das feições em unidades métricas e posterior conversão para hectares.
+
+# 26. Procedimentos raster utilizados no QGIS
+
+Os principais algoritmos matriciais foram:
+
+Recortar Raster pela Camada Máscara
+
+Utilizado para limitar os rasters à área de estudo.
+
+Rasterizar (Vetor para Raster)
+
+Utilizado para transformar a compartimentação do relevo em uma superfície matricial compatível com o raster de uso e cobertura.
+
+Reclassificação
+
+Utilizada para transformar classes temáticas originais em classes específicas do modelo.
+
+Calculadora Raster
+
+Utilizada para:
+
+selecionar classes;
+combinar variáveis;
+produzir a máscara de áreas prioritárias;
+cruzar áreas prioritárias e uso do solo;
+gerar o raster final de pressão antrópica.
+
+
+## 27. Estrutura lógica do processamento da pressão antrópica
+
+O procedimento pode ser sintetizado em:
+
+CAMADA DE RELEVO — EMBRAPA
+             │
+             ▼
+Seleção das classes prioritárias
+             │
+             ▼
+Plano / Plano-Suave Ondulado / Suave Ondulado
+             │
+             ▼
+Reclassificação
+             │
+       0 = não prioritária
+       1 = prioritária
+             │
+             ▼
+Rasterização
+             │
+             ▼
+Raster de Áreas Prioritárias
+             │
+             │
+             ├───────────────────────────────┐
+             │                               │
+             ▼                               ▼
+       Uso e Cobertura                   Área de Estudo
+             │                               │
+             ▼                               │
+       Recorte/Seleção                       │
+             │                               │
+             ▼                               │
+       Reclassificação                       │
+             │                               │
+0 — Áreas não prioritárias de recarga        │
+1 — Formação Savânica em áreas de recarga    │
+2 — Pastagem em áreas de recarga             │   
+3 — Área Urbanizada em áreas de recarga      │
+4 — Plantação de Soja em áreas de recarga    │ 
+             │                               │    
+             │                               │            
+             └─────────────── ───────────────┘             
+                             ▼
+                       CALCULADORA RASTER
+                             │
+                             ▼
+                    PRESSÃO ANTRÓPICA SOBRE
+                       ÁREAS DE RECARGA
+                             │
+                             ▼
+                       Cálculo de áreas
+                             │
+                             ▼
+                     Produto cartográfico
+
+
+# 28. Estrutura lógica do mapa de risco
+
+O mapa de risco segue uma lógica distinta:
+
+REFERENCIAL ZEE-DF
+       │
+       ├── Domínio poroso
+       │       └── Condutividade hidráulica
+       │
+       ├── Compartimentação geomorfológica
+       │
+       └── Domínio fraturado/fissuro-cárstico
+               └── Vazão
+                       │
+                       ▼
+             MODELO SISDIA / ZEE-DF
+                       │
+                       ▼
+           Risco de Perda de Recarga
+                       │
+                       
+             Unidades Hidrográficas 
+
+                       │
+                       ▼
+               Produto cartográfico
+
+O modelo original do ZEE-DF atribui peso duas vezes maior ao fator de condutividade hidráulica em relação aos fatores geomorfologia e vazão, conforme a expressão Sa=(2C+G+V)/4.
+
+
+# 29. Interpretação metodológica
+
+A metodologia foi estruturada para evitar a confusão entre risco hidrogeológico, prioridade de recarga e pressão antrópica.
+
+O Risco de Perda de Recarga de Aquífero representa uma condição de sensibilidade hidrogeológica derivada do modelo do ZEE-DF.
+
+As Áreas Prioritárias de Recarga constituem uma elaboração espacial derivada da compartimentação do relevo, selecionando as formas consideradas mais favoráveis à recarga.
+
+A Pressão Antrópica sobre Áreas de Recarga resulta do cruzamento entre essas áreas prioritárias e as classes de uso e cobertura do solo.
+
+Por fim, os pontos de outorga representam a localização das captações autorizadas/registradas e permitem acrescentar à análise uma dimensão de exploração do recurso subterrâneo.
+
+Dessa forma:
+
+$$ \boxed{ Risco\ Hidrogeológico \neq Pressão\ Antrópica \neq Explotação } $$
+
+mas as três dimensões podem ser espacialmente relacionadas.
+
+# 30. Limitações da abordagem
+
+O mapa de pressão antrópica possui caráter diagnóstico e indicativo.
+
+A sobreposição entre uso do solo e área prioritária não representa, isoladamente, uma estimativa quantitativa da redução da recarga.
+
+Da mesma forma, a presença de pontos de outorga não significa necessariamente que toda a vazão autorizada esteja sendo efetivamente explotada ou que a captação esteja provocando rebaixamento do aquífero.
+
+A análise deve, portanto, ser interpretada como uma avaliação espacial integrada das condições hidrogeológicas, ocupação territorial e exploração da água subterrânea, podendo subsidiar análises estatísticas e investigações de campo posteriores.
+
+Essa cautela é especialmente importante porque o próprio ZEE-DF caracteriza as áreas de recarga como estratégicas para a manutenção dos serviços ecossistêmicos associados à produção hídrica e ressalta os efeitos potenciais da ocupação inadequada e da superexplotação dos aquíferos.
+
+## 31. Referências metodológicas
+
+ZEE-DF — Matriz Ecológica
+
+GOVERNO DO DISTRITO FEDERAL. Zoneamento Ecológico-Econômico do Distrito Federal — ZEE-DF: Matriz Ecológica. Brasília, 2017.
+
+Documento utilizado como referência para o conceito de riscos ecológicos, áreas prioritárias para recarga e metodologia de sensibilidade dos aquíferos. O documento estabelece os planos de informação empregados no mapa de risco, incluindo sistemas aquíferos do domínio poroso, condutividade hidráulica, compartimentação geomorfológica e sistemas dos domínios fraturado e fissuro-cárstico.
+
+ADASA
+
+ADASA — AGÊNCIA REGULADORA DE ÁGUAS, ENERGIA E SANEAMENTO BÁSICO DO DISTRITO FEDERAL. Manual Técnico e Administrativo de Outorga de Direito de Uso de Recursos Hídricos no Distrito Federal. Brasília, 2021.
+
+O manual foi utilizado como referência para interpretação dos dados de captação e outorga de águas subterrâneas.
+
+EMBRAPA - Reconhecimento de Solos (2015) CNPS 
+
+Dados de compartimentação do relevo utilizados como base para a elaboração da variável espacial de áreas prioritárias de recarga.
+
+Uso e cobertura do solo - Coleção 10 (2024) Mapbiomas
+
+Base temática utilizada para caracterização da ocupação territorial e cruzamento com as áreas prioritárias de recarga.
+
+# 32. Síntese do fluxo metodológico
+                    PROJETO QGIS
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+          ▼              ▼              ▼
+     HIDROGEOLOGIA      RELEVO      USO/COBERTURA
+          │              │              │
+          │              ▼              ▼
+          │         Seleção classes   Recorte
+          │              │              │
+          │              ▼              ▼
+          │        Reclassificação  Reclassificação
+          │              │              │
+          │              ▼              │
+          │        Rasterização          │
+          │              │              │
+          │              ▼              │
+          │       Áreas prioritárias     │
+          │              │              │
+          │              └──────┬───────┘
+          │                     ▼
+          │              Calculadora Raster
+          │                     │
+          │                     ▼
+          │              PRESSÃO ANTRÓPICA
+          │
+          ▼
+   RISCO ZEE-DF
+          │
+          ├──────────────┐
+          │              │
+          │              │
+          ▼              ▼
+Classes de              Outorgas
+Sensibilidade e         │
+Risco a Perda de         │
+Recarga de Aquífero      │
+          │              │
+          └───────┬──────┘
+                  ▼
+        ANÁLISE INTEGRADA
+                  │
+                  ▼
+        LAYOUT CARTOGRÁFICO
+                  │
+        ┌─────────┴─────────┐
+        ▼                   ▼
+     MAPA 01             MAPA 02
+     Pressão             Risco de
+     Antrópica           Perda de Recarga
+
+
+
+
+*A distinção central deste projeto é que o Risco de Perda de Recarga é uma camada de referência baseada na metodologia do ZEE-DF, enquanto a Pressão Antrópica sobre Áreas de Recarga é um produto analítico elaborado no QGIS a partir do cruzamento entre uso/cobertura e uma variável de prioridade geomorfológica. O segundo produto não deve ser apresentado como uma reprodução do modelo de risco do ZEE-DF, mas como uma análise espacial complementar e aplicada à área de estudo.*

@@ -1,0 +1,567 @@
+# Documentação e fluxo metodológico utilizado no QGIS para elaboração do mapa de NDVI e análise de vigor vegetativo e meteorologia sazonal
+
+## 1. Identificação do projeto
+
+Este diretório contém a documentação e a organização metodológica do projeto QGIS (.qgz) utilizado para a elaboração do produto cartográfico de análise do vigor vegetativo e meteorologia sazonal na Bacia Hidrográfica do Rio São Bartolomeu, no Distrito Federal.
+
+O projeto foi estruturado para integrar produtos de NDVI, variáveis meteorológicas, imóveis rurais e unidades hidrográficas, permitindo representar espacialmente a dinâmica sazonal do vigor vegetativo e sua relação com as condições de precipitação e déficit hídrico nos períodos analisados.
+
+Os produtos de NDVI, precipitação, déficit hídrico, estatísticas espaciais e séries temporais foram previamente processados em outras etapas do fluxo metodológico e posteriormente incorporados ao projeto QGIS.
+
+A organização do projeto segue uma lógica de separação entre:
+
+DADOS E PRODUTOS PREVIAMENTE PROCESSADOS
+
+        │
+
+        ├── NDVI
+        │
+        ├── Precipitação
+        │
+        ├── Déficit hídrico
+        │
+        ├── Imóveis rurais
+        │
+        └── Unidades hidrográficas
+
+                │
+
+                ▼
+
+       ORGANIZAÇÃO E PROCESSAMENTO QGIS
+
+                │
+
+        ├── Organização das camadas
+        ├── Compatibilização espacial
+        ├── Sobreposição espacial
+        ├── Configuração da simbologia
+        ├── Organização temporal
+        └── Composição cartográfica
+
+                │
+
+                ▼
+
+          PRODUTO CARTOGRÁFICO FINAL
+
+                │
+
+        ├── NDVI médio da estação seca 2025
+        ├── NDVI mpédio da estação chuvosa 2024-2025
+        ├── NDVI histórico 2017-2024
+        ├── Precipitação Sazonal (Seca e Chuva) *Mesmo período das análises do NDVI*
+        ├── Déficit hídrico Sazonal (Seca e Chuva) *Mesmo período das análises do NDVI*
+        ├── Imóveis rurais
+        └── Gráficos por classe fundiária
+
+
+## 2. Sistema de referência espacial
+
+As operações espaciais e a composição cartográfica foram padronizadas para o sistema:
+
+SIRGAS 2000 / UTM Zona 23S
+
+EPSG:31983
+
+## 3. Camadas utilizadas no QGIS
+
+### 01 — Dados vetoriais de referência
+
+As camadas vetoriais utilizadas no projeto foram:
+
+`car_aoi`
+
+Camada de imóveis rurais utilizada como referência espacial para a análise do vigor vegetativo e para a representação das classes fundiárias no território.
+
+`recorte_uhs_aoi`
+
+Camada correspondente ao recorte das unidades hidrográficas utilizado para delimitação e contextualização espacial da área de análise.
+
+### 02 — Produtos de NDVI
+
+Os produtos de NDVI incorporados ao projeto foram:
+
+`NDVI_Medio_Historico_Estacao_Seca_2017_2024`
+
+Produto raster correspondente ao NDVI médio histórico da estação seca para o período de 2017 a 2024.
+
+`NDVI_Medio_Estacao_Chuvosa_2024_2025`
+
+Produto raster correspondente ao NDVI médio da estação chuvosa para o período de 2024 a 2025.
+
+`NDVI_Medio_Historico_Estacao_Chuvosa_2017_2024`
+
+Produto raster correspondente ao NDVI médio histórico da estação chuvosa para o período de 2017 a 2024.
+
+`NDVI_Medio_Estacao_Seca_2025`
+
+Produto raster correspondente ao NDVI médio da estação seca de 2025.
+
+
+### 03 — Produtos meteorológicos
+
+Foram incorporados ao projeto os produtos raster de precipitação e déficit hídrico associados aos períodos sazonais analisados:
+
+`precipitacao_seca_2024.tif`
+
+Produto de precipitação acumulada referente à estação seca de 2024.
+
+`precipitacao_chuvosa_2024_2025.tif`
+
+Produto de precipitação acumulada referente à estação chuvosa de 2024–2025.
+
+`deficit_hidrico_seca_2024.tif`
+
+Produto de déficit hídrico correspondente à estação seca de 2024.
+
+`deficit_hidrico_chuvosa_2024_2025.tif`
+
+Produto de déficit hídrico correspondente à estação chuvosa de 2024–2025.
+
+
+## 4. Área de estudo e recorte espacial
+
+A área de estudo foi utilizada como referência espacial para a organização e representação dos produtos de NDVI e das variáveis meteorológicas.
+
+A camada de imóveis rurais foi sobreposta aos produtos raster para permitir a interpretação da distribuição espacial do vigor vegetativo em relação às unidades fundiárias.
+
+O recorte das unidades hidrográficas foi utilizado para contextualizar espacialmente os produtos dentro da Bacia Hidrográfica do Rio São Bartolomeu.
+
+
+## 5. Organização temporal dos produtos de NDVI
+
+Os produtos de NDVI foram organizados no projeto QGIS de acordo com os períodos temporais utilizados na análise.
+
+A estrutura contempla produtos correspondentes a:
+
+Estação Seca de 2025;
+
+Estação Chuvosa de 2024–2025;
+
+Estação Seca histórica — 2017–2024;
+
+Estação Chuvosa histórica — 2017–2024.
+
+A organização temporal permite comparar a distribuição espacial do vigor vegetativo entre diferentes períodos sazonais e entre os valores observados no período recente e as respectivas médias históricas.
+
+O QGIS foi utilizado para organizar e representar os produtos previamente processados, não sendo responsável pela geração original das séries temporais ou das médias utilizadas.
+
+
+## 6. Produtos de NDVI
+
+O NDVI foi utilizado como indicador espectral do vigor vegetativo.
+
+Os produtos incorporados ao QGIS apresentam valores contínuos do índice e foram representados espacialmente por meio de simbologia raster.
+
+No produto cartográfico, os valores observados variam aproximadamente entre:
+
+Estação Seca:
+
+mínimo: -0,115
+
+máximo: 0,892
+
+
+Estação Chuvosa:
+
+mínimo: -0,1731
+
+máximo: 0,895
+
+Esses valores correspondem aos produtos raster utilizados na composição cartográfica.
+
+
+## 7. Classificação cartográfica do NDVI
+
+Para a representação cartográfica, os valores de NDVI foram organizados nas seguintes classes:
+
+-1,00 a -0,20 — Solo Exposto/Água/Nuvens
+
+-0,20 a 0,20 — Baixo Vigor Vegetativo
+
+0,20 a 0,40 — Vigor Baixo e Moderado
+
+0,40 a 0,60 — Vigor Moderado e Alto
+
+0,60 a 1,00 — Vigor Alto/Vegetação Densa
+
+A classificação foi utilizada exclusivamente para fins de representação cartográfica e interpretação visual dos valores do índice.
+
+O procedimento de classificação não corresponde ao cálculo do NDVI, uma vez que os produtos raster foram previamente processados e posteriormente incorporados ao projeto QGIS.
+
+
+## 8. Produtos de precipitação
+
+Os produtos de precipitação foram incorporados como variáveis complementares à análise do vigor vegetativo e que auxiliam a compreender a interação dinâmica entre as condições climáticas sazonais e sua influência sobre o vigor vegetativo da área de estudo, e consequentemente sobre os sistemas produtivos agrícolas. 
+
+Para a estação seca foi utilizado o raster:
+
+`precipitacao_seca_2024.tif`
+
+Para a estação chuvosa foi utilizado o raster:
+
+`precipitacao_chuvosa_2024_2025.tif`
+
+Essas camadas foram utilizadas na composição dos mapas sazonais para permitir a interpretação conjunta entre a distribuição espacial do NDVI e as condições de precipitação observadas nos períodos analisados.
+
+No layout final, a precipitação é apresentada como:
+
+Precipitação Diária Acumulada (mm/d)
+
+
+## 9. Produtos de déficit hídrico
+
+O déficit hídrico foi incorporado como variável complementar para a interpretação das condições ambientais associadas ao vigor vegetativo e como variável na equação para uyma interpretação sistêmica do impacto de fatores climáticos sazonais sobre o balanço hídrico da região, incluindo a disponibilidade hídrica nos sistemas produtivos agrícolas.  
+
+Foram utilizados os produtos:
+
+`deficit_hidrico_seca_2024.tif`
+
+`deficit_hidrico_chuvosa_2024_2025.tif`
+
+Os produtos foram representados separadamente nos painéis correspondentes às estações seca e chuvosa.
+
+No layout final, a variável é apresentada como:
+
+Déficit Hídrico Mensal Acumulado (mm)
+
+A utilização desses produtos permite contextualizar espacialmente a distribuição do NDVI em relação às condições de disponibilidade hídrica atmosférica representadas pelo déficit hídrico.
+
+
+## 10. Sobreposição dos imóveis rurais
+
+A camada `car_aoi` foi utilizada como elemento de referência territorial para a representação dos imóveis rurais.
+
+Os limites dos imóveis foram sobrepostos aos rasters de NDVI, permitindo visualizar a distribuição espacial do vigor vegetativo dentro das unidades fundiárias.
+
+A sobreposição possibilita relacionar visualmente a dinâmica espacial do NDVI às diferentes classes fundiárias analisadas.
+
+**Para consulta dos procedimentos adotados para cálculo dos valores estatísticos por classe fundiária consulte a pasta '2_postgis/' que contém as consultas realizadas no banco de dados em outra etapa do fluxo metodológico.**
+
+
+## 11. Integração das classes fundiárias
+
+A análise cartográfica considera quatro classes fundiárias:
+
+Latifúndio;
+
+Média Propriedade;
+
+Pequena Propriedade;
+
+Minifúndio;
+
+Essas classes foram utilizadas na representação gráfica dos valores médios de NDVI.
+
+A composição final apresenta duas formas de análise:
+
+Curva de Vigor Vegetativo por Classe Fundiária Anual, durante os meses da seca e estação chuvosa nos anos de 2024-2025;
+
+NDVI Médio Histórico por Classe Fundiária considerando o intervalo de 2017-2024;
+
+A primeira representa a variação temporal do NDVI médio entre as classes fundiárias.
+
+A segunda apresenta a comparação dos valores médios históricos entre estação seca e estação chuvosa.
+
+nota: adotou-se o período histórico de 2017-2024, devido a restrições temporais na disponibilidade de imagens na coleção de produtos orbitais do Sentinel-2 no GEE.
+
+
+## 12. Integração dos gráficos
+
+Os gráficos utilizados no layout foram previamente produzidos no ambiente JupyterLab e posteriormente incorporados à composição cartográfica.
+
+O gráfico:
+
+`Curva de Vigor Vegetativo por Classe Fundiária`
+
+representa a variação mensal e anual do NDVI médio das classes dfundiárias durante os meses da seca e estação chuvosa nos anos de 2024-2025;
+
+Latifúndio;
+
+Média Propriedade;
+
+Pequena Propriedade;
+
+Minifúndio;
+
+O gráfico:
+
+`NDVI Médio Histórico por Classe Fundiária`
+
+apresenta a comparação entre os valores médios da estação seca e da estação chuvosa para as quatro classes fundiárias considerando o intervalo de 2017-2024;
+
+A incorporação desses elementos permite complementar a interpretação espacial dos mapas com a dimensão estatística e temporal dos resultados.
+
+
+## 13. Organização das variáveis sazonais
+
+A composição cartográfica foi estruturada em dois períodos principais:
+
+### Estação Seca
+
+Período representado:
+
+06/2025 a 09/2025
+
+Elementos:
+
+NDVI;
+
+imóveis rurais;
+
+precipitação;
+
+déficit hídrico;
+
+localização;
+
+área de estudo.
+
+
+### Estação Chuvosa
+
+Período representado:
+
+11/2024 a 03/2025
+
+Elementos:
+
+NDVI;
+
+imóveis rurais;
+
+precipitação;
+
+déficit hídrico;
+
+área de estudo;
+
+legenda cartográfica.
+
+
+## 14. Procedimentos realizados no QGIS
+
+O processamento realizado no QGIS concentrou-se na organização, integração espacial e representação cartográfica dos produtos previamente processados.
+
+Os principais procedimentos compreenderam:
+
+organização das camadas em grupo temático;
+
+definição do SRC do projeto;
+
+verificação da compatibilidade espacial;
+
+configuração da simbologia raster;
+
+configuração das legendas;
+
+integração dos gráficos;
+
+configuração dos elementos cartográficos;
+
+
+## 15. Simbologia do NDVI
+
+A simbologia foi configurada para representar a variação espacial dos valores do NDVI.
+
+A legenda utiliza uma sequência cromática contínua associada às classes de vigor vegetativo, permitindo diferenciar:
+
+valores negativos associados a superfícies sem vegetação ou situações de baixa resposta espectral;
+
+valores baixos e moderados de vigor;
+
+valores elevados associados à maior densidade e vigor da vegetação.
+
+A mesma lógica de representação foi aplicada aos produtos sazonais para preservar a comparabilidade visual entre os períodos.
+
+
+## 16. Simbologia das variáveis meteorológicas
+
+Os produtos de precipitação e déficit hídrico receberam simbologias específicas para representar sua distribuição espacial.
+
+A precipitação foi representada por escala contínua de valores acumulados.
+
+O déficit hídrico foi representado separadamente para os períodos sazonalmente analisados.
+
+A representação das variáveis meteorológicas foi mantida subordinada ao objetivo principal do produto, que consiste na análise espacial do vigor vegetativo.
+
+
+## 17. Fontes dos dados
+
+Imóveis Rurais — SICAR/SFB;
+
+Unidades Hidrográficas — SEMA;
+
+NDVI — Sentinel-2;
+
+Precipitação — CHIRPS;
+
+Déficit hídrico — TerraClimate.
+
+**Para consulta dos cálculos de NDVI sazonal e histórico e processamento das variáveis climáticas de déficit hídrico e precipitação consulte a pasta '3_gee/' contendo os scripts para cálculo das médias sazonais de ndvi e soma acumulada sazonal para déficit hídrico e precipitação chuvosa.**
+
+
+## 18. Resolução espacial dos produtos
+
+Sentinel-2 — 10 m;
+
+CHIRPS — aproximadamente 3.556 m;
+
+TerraClimate — aproximadamente 4.638,3 m.
+
+As diferentes resoluções espaciais devem ser consideradas na interpretação dos produtos.
+
+O NDVI apresenta maior detalhamento espacial em relação às variáveis meteorológicas, que possuem resolução espacial mais grosseira.
+
+Os métodos de aquisição de dados meteorológicos naturalmente adotam escalas de processamento menores haja vista a pópria natureza de fenômenos climáticos, que apresentam variabilidade espacial menor em escala local. A diferença nas resoluções espaciais dos datasets todavia, não implicam em erro metodológico haja vista que os dados meteorológicos foram recortados para a área de estudo, não apresentando considerável variação no gradiente de valores digitais dos pixels dentro dos limites da área. 
+
+
+## 19. Integração metodológica com as demais etapas
+
+O projeto QGIS constitui a etapa de integração cartográfica do fluxo metodológico do NDVI.
+
+Os procedimentos foram distribuídos entre diferentes ambientes:
+
+GEE:
+
+processamento dos produtos de NDVI e das variáveis meteorológicas;
+
+PostGIS:
+
+organização e processamento das estatísticas espaciais e temporais;
+
+JupyterLab:
+
+produção das curvas e gráficos de NDVI;
+
+QGIS:
+
+integração espacial;
+
+organização das camadas;
+
+sobreposição dos imóveis rurais;
+
+representação sazonal;
+
+simbologia;
+
+composição cartográfica;
+
+integração dos gráficos;
+
+elaboração do layout final.
+
+## 20. Estrutura lógica do processamento no QGIS
+
+A organização do projeto pode ser sintetizada em:
+
+PRODUTOS PREVIAMENTE PROCESSADOS
+
+        │
+
+        ├── NDVI
+        │
+        ├── Precipitação
+        │
+        ├── Déficit hídrico
+        │
+        ├── Imóveis rurais
+        │
+        └── Unidades hidrográficas
+
+                │
+
+                ▼
+
+             QGIS
+
+                │
+
+        ├── Organização
+        │
+        ├── Simbologia
+        │
+        └── Composição
+
+                │
+
+                ▼
+
+       PRODUTO CARTOGRÁFICO
+
+                │
+
+        ├── Estação Seca
+        ├── Estação Chuvosa
+        ├── NDVI Histórico
+        ├── Precipitação
+        ├── Déficit hídrico
+        ├── Classes fundiárias
+        └── Gráficos temporais
+
+
+## 21. Interpretação metodológica
+
+A composição foi estruturada para relacionar três dimensões principais:
+
+VIGOR VEGETATIVO
+
+        │
+
+        ▼
+
+       NDVI
+
+        +
+
+CONDIÇÕES METEOROLÓGICAS
+
+        │
+
+        ├── Precipitação
+        │
+        └── Déficit hídrico
+
+        +
+
+ESTRUTURA FUNDIÁRIA
+
+        │
+
+        ▼
+
+Imóveis rurais e classes fundiárias
+
+        │
+
+        ▼
+
+ANÁLISE DO VIGOR VEGETATIVO SAZONAL
+
+O NDVI constitui a variável central da análise, enquanto precipitação e déficit hídrico fornecem contexto meteorológico e as classesfundiárias permitem interpretar a distribuição dos valores do índice em diferentes unidades de apropriação territorial.
+
+
+## 22. Limitações da abordagem
+
+A interpretação dos mapas deve considerar que as variáveis apresentam diferentes resoluções espaciais. A sobreposição espacial entre essas variáveis deve ser interpretada como uma relação entre padrões espaciais, e não como uma correspondência pixel a pixel de mesma escala de observação.
+
+O mapa de NDVI representa uma condição espectral da vegetação nos períodos analisados e não constitui, isoladamente, uma medida direta de produtividade agrícola, disponibilidade de água no solo ou condição agronômica das culturas.
+
+
+## 23. Reprodutibilidade
+
+O arquivo `projeto.qgz` preserva a estrutura do projeto QGIS, incluindo a organização das camadas e processos realizados neste ambiente. 
+
+Os procedimentos de processamento realizados antes da etapa QGIS permanecem documentados em suas respectivas pastas do repositório:
+
+`1_import/`
+
+`2_postgis/`
+
+`3_gee/`
+
+`4_jupyterlab/`
+
+A documentação permite acompanhar a cadeia de produção desde a preparação dos dados até a integração e representação cartográfica final no QGIS.

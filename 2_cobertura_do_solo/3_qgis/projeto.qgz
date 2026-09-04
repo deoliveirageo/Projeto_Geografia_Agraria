@@ -1,0 +1,419 @@
+# Documentação e fluxo metodológico utilizado no QGIS para elaboração do mapa de Uso e Cobertura do Solo
+
+## 1. Identificação do projeto
+
+Este diretório contém a documentação e a organização metodológica do projeto QGIS (.qgz) utilizado para elaboração do mapa de Uso e Cobertura do Solo das sub-bacias do Alto e Médio Rio São Bartolomeu e do Ribeirão Sobradinho, inseridas na Bacia Hidrográfica do Rio São Bartolomeu, no Distrito Federal.
+
+O produto tem como objetivo representar a distribuição espacial das classes de uso e cobertura do solo na área de estudo e quantificar a área ocupada por cada classe.
+
+O projeto integra a classificação de uso e cobertura da terra, as unidades hidrográficas e os elementos cartográficos necessários à interpretação espacial do território.
+
+O fluxo metodológico foi organizado em três ambientes principais:
+
+DADOS DE USO E COBERTURA DO SOLO
+
+        │
+
+        ▼
+
+GOOGLE EARTH ENGINE
+
+        │
+
+        └── Classificação e preparação do produto de uso e cobertura
+
+                │
+
+                ▼
+
+JUPYTERLAB
+
+        │
+
+        └── Elaboração do gráfico de área por classe
+
+                │
+
+                ▼
+
+QGIS
+
+        │
+
+        ├── Incorporação dos produtos
+        ├── Recorte espacial
+        ├── Organização das camadas
+        ├── Simbologia
+        ├── Sobreposição das unidades hidrográficas
+        ├── Integração das informações estatísticas
+        └── Composição cartográfica
+
+                │
+
+                ▼
+
+        PRODUTO CARTOGRÁFICO FINAL
+
+
+## 2. Sistema de referência espacial
+
+As operações espaciais e a composição cartográfica foram padronizadas para:
+
+SIRGAS 2000 / UTM Zona 23S
+
+EPSG:31983
+
+
+## 3. Área de estudo
+
+A área analisada corresponde às sub-bacias do:
+
+- Alto Rio São Bartolomeu;
+- Médio Rio São Bartolomeu;
+- Ribeirão Sobradinho.
+
+Essas unidades estão inseridas na Bacia Hidrográfica do Rio São Bartolomeu, no Distrito Federal.
+
+A camada `uhs_aoi` foi utilizada para delimitar e contextualizar espacialmente as unidades hidrográficas consideradas no produto.
+
+
+## 4. Organização das camadas
+
+
+`2_cobertura_do_solo`
+
+`Tabela_Estatisticas_Cobertura_ha`
+
+`landcoverage_2024_aoi_clip`
+
+`uhs_aoi`
+
+A camada raster constitui o principal produto espacial da análise, enquanto as unidades hidrográficas são utilizadas como referência territorial.
+
+
+## 5. Produto de uso e cobertura do solo
+
+A camada:
+
+`landcoverage_2024_aoi_clip`
+
+constitui o principal plano de informação do projeto.
+
+O produto representa a classificação do uso e cobertura do solo referente ao ano de 2024.
+
+A camada foi incorporada ao QGIS como raster categorizado, mantendo as classes temáticas utilizadas na classificação original.
+
+O produto foi recortado para a área de interesse, permitindo sua representação espacial nas sub-bacias analisadas.
+
+
+## 6. Classes de uso e cobertura do solo
+
+O produto cartográfico contempla as seguintes classes:
+
+- Formação Florestal;
+- Formação Savânica;
+- Silvicultura;
+- Área Pantanosa;
+- Formação Campestre;
+- Pastagem;
+- Mosaico de Usos;
+- Área Urbana;
+- Outras Áreas não Vegetadas;
+- Aquicultura;
+- Corpos Hídricos;
+- Soja;
+- Outras Lavouras;
+- Café.
+
+As classes foram representadas por simbologia categorizada no QGIS, permitindo diferenciar espacialmente os diferentes tipos de uso e cobertura presentes na área de estudo.
+
+
+## 7. Recorte espacial
+
+O raster de uso e cobertura do solo foi submetido ao recorte espacial correspondente à área de estudo.
+
+O produto resultante:
+
+`landcoverage_2024_aoi_clip`
+
+foi utilizado como camada principal para elaboração do mapa.
+
+O recorte teve como finalidade restringir a representação aos limites territoriais considerados na análise e reduzir a área de processamento e representação cartográfica.
+
+
+## 8. Organização e simbologia raster
+
+A camada de uso e cobertura foi configurada no QGIS utilizando simbologia categorizada.
+
+Cada valor de classificação foi associado à respectiva classe temática.
+
+A legenda foi organizada de acordo com a nomenclatura das classes da legenda e documentação do Mapbiomas, coleção 10, permitindo identificar individualmente os diferentes tipos de cobertura vegetal, usos agropecuários, áreas urbanizadas, corpos hídricos e demais categorias.
+
+A simbologia foi aplicada de maneira consistente entre o raster e a legenda apresentada no layout final.
+
+
+## 9. Unidades hidrográficas
+
+A camada:
+
+`uhs_aoi`
+
+Unidades hidrográficas que compõem a área de estudo
+
+No mapa principal são identificadas espacialmente:
+
+- Alto Rio São Bartolomeu;
+- Médio Rio São Bartolomeu;
+- Ribeirão Sobradinho.
+
+
+## 10. Estatísticas de área
+
+O projeto incorpora a tabela:
+
+`Tabela_Estatisticas_Cobertura_ha`
+
+A tabela contém informações de área ocupada por classe de uso e cobertura do solo extraídas à partir da ferramenta nativa do QGIS em 'Análise Raster' > 'Raster Layer Unique Values Report', que retorna: 
+
+classe; 
+
+contagem de pixels; 
+
+area em m2; 
+
+Os dados estatísticos foram utilizados como suporte à elaboração do gráfico de área ocupada por classe e à interpretação quantitativa da composição territorial.
+
+As estatísticas representam a área das classes dentro do recorte espacial analisado.
+
+
+## 11. Quantificação das classes
+
+A área ocupada por cada classe foi utilizada para complementar a representação espacial do mapa.
+
+Conforme apresentado no produto cartográfico, as classes apresentam aproximadamente os seguintes valores:
+
+| Classe                         | Área (ha) |
+|--------------------------------|----------:|
+| Formação Florestal             | 4.508     |
+| Formação Savânica              | 23.418    |
+| Silvicultura                   | 400       |
+| Área Pantanosa                 | 270       |
+| Formação Campestre             | 643       |
+| Pastagem                       | 8.903     |
+| Mosaico de Usos                | 3.426     |
+| Área Urbana                    | 6.237     |
+| Outras Áreas não Vegetadas     | 394       |
+| Aquicultura                    | 11        |
+| Corpos Hídricos                | 289       |
+| Soja                           | 5.921     |
+| Outras Lavouras                | 384       |
+| Café                           | 43        |
+
+Os valores apresentados no layout constituem a síntese quantitativa da área ocupada pelas classes no recorte analisado.
+
+
+## 12. Gráfico de área ocupada
+
+O produto cartográfico incorpora o gráfico:
+
+**Área ocupada por classe de uso e cobertura do solo**
+
+O gráfico apresenta a área, em hectares, ocupada por cada classe.
+
+A elaboração do gráfico foi realizada no ambiente JupyterLab e posteriormente integrada à composição cartográfica. O script está na pasta`2_jupyterlab` deste diretório.
+
+O QGIS foi utilizado para composição e posicionamento do elemento gráfico no layout final.
+
+
+## 13. Integração das etapas externas
+
+O produto de uso e cobertura do solo foi produzido a partir de uma cadeia de processamento que envolveu diferentes ambientes.
+
+### Google Earth Engine
+
+Utilizado para:
+
+- processamento do produto de classificação;
+- filtragem da data de referência;
+- exportação do raster; 
+
+### JupyterLab
+
+Utilizado para:
+
+- tratamento das informações estatísticas;
+- elaboração do gráfico de área ocupada por classe.
+
+### QGIS
+
+Utilizado para:
+
+- incorporação dos produtos;
+- recorte espacial;
+- organização das camadas;
+- representação cartográfica;
+- geração de tabela estatística; 
+- simbologia;
+- integração do gráfico;
+- composição do layout final.
+
+
+## 14. Fontes dos dados
+
+Conforme indicado no produto cartográfico, foram utilizadas como fontes:
+
+**Uso e Cobertura do Solo:** MapBiomas;
+
+**Unidades Hidrográficas:** SEMA;
+
+**Mesorregiões:** IBGE.
+
+O produto raster de uso e cobertura corresponde ao ano de 2024.
+
+
+## 15. Fluxo metodológico
+
+O fluxo de produção pode ser sintetizado em:
+
+MAPBIOMAS
+
+        │
+
+        ▼
+
+PROCESSAMENTO / CLASSIFICAÇÃO
+
+        │
+
+        ▼
+
+PRODUTO DE USO E COBERTURA — 2024
+
+        │
+
+        ▼
+
+RECORTE PARA A ÁREA DE ESTUDO
+
+        │
+
+        ▼
+
+       QGIS
+
+        │
+
+        ├── Organização
+        ├── Simbologia
+        ├── Sobreposição das UHs
+        ├── Legenda
+        ├── reporte de estatísticas
+        └── Composição cartográfica
+
+        │
+
+        ▼
+
+     JUPYTERLAB
+
+        │
+
+        └── Gráfico de área por classe
+
+        │
+
+        ▼
+
+       QGIS
+
+        │
+
+        └── Integração do gráfico
+
+        │
+
+        ▼
+
+PRODUTO CARTOGRÁFICO FINAL
+
+
+## 16. Estrutura lógica da análise
+
+A análise de uso e cobertura do solo foi estruturada em duas dimensões complementares:
+
+### Dimensão espacial
+
+Distribuição das classes no território.
+
+        +
+
+### Dimensão quantitativa
+
+Área ocupada por cada classe.
+
+        │
+
+        ▼
+
+CARACTERIZAÇÃO DO USO E COBERTURA DO SOLO
+
+A combinação da representação cartográfica e da quantificação das áreas permite interpretar tanto a distribuição espacial quanto a participação relativa das diferentes classes no território analisado.
+
+## 17. Produto final
+
+O resultado desta etapa é o mapa:
+
+**Uso e Cobertura do Solo das Sub-bacias do Alto e Médio Rio São Bartolomeu e do Ribeirão Sobradinho - DF**
+
+O produto integra:
+
+- classificação de uso e cobertura do solo;
+- unidades hidrográficas;
+- localização da área de estudo;
+- quantificação das áreas por classe;
+- representação gráfica da distribuição das classes.
+
+
+## 18. Síntese do fluxo metodológico
+
+              DADOS MAPBIOMAS
+                     │
+                     ▼
+              PROCESSAMENTO GEE
+                     │
+                     ▼
+          USO E COBERTURA — 2024
+                     │
+                     ▼
+             RECORTE ESPACIAL
+                     │
+                     ▼
+                    QGIS
+                     │
+          ┌──────────┼──────────┐
+          │          │          │
+          ▼          ▼          ▼
+       Raster       UHs      Estatísticas
+          │          │          │
+          │          │          ▼
+          │          │      JupyterLab
+          │          │          │
+          │          │          ▼
+          │          │       Gráfico
+          │          │          │
+          └──────────┼──────────┘
+                     │
+                     ▼
+                SIMBOLOGIA
+                     │
+                     ▼
+             COMPOSIÇÃO DO MAPA
+                     │
+                     ▼
+              PRODUTO FINAL
+
+              ## 17. Limitações
+
+# Limitações
+
+A interpretação do produto deve considerar a resolução espacial da base de origem e os critérios de classificação adotados pelo produto utilizado.

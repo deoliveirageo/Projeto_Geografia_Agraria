@@ -1,0 +1,29 @@
+-- Query para delimitação de centróide médio entre os três polígonos dos assentamentos da área de estudo 
+
+
+WITH centroides AS (
+    SELECT ST_Centroid(geom) AS geom
+    FROM assentamentos_bartolomeu.assentamento_1
+
+    UNION ALL
+
+    SELECT ST_Centroid(geom) AS geom
+    FROM assentamentos_bartolomeu.assentamento_2
+
+    UNION ALL
+
+    SELECT ST_Centroid(geom) AS geom
+    FROM assentamentos_bartolomeu.assentamento_3
+),
+
+poligono AS (
+    SELECT
+        ST_ConvexHull(
+            ST_Collect(geom)
+        ) AS geom
+    FROM centroides
+)
+
+SELECT
+    ST_Centroid(geom) AS geom
+FROM poligono;

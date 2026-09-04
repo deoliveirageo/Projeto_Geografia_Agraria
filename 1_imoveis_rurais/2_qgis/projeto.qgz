@@ -1,0 +1,452 @@
+# Documentação e fluxo metodológico utilizado no QGIS para elaboração do mapa de classificação fundiária dos imóveis rurais
+
+## 1. Identificação do projeto
+
+Este diretório contém a documentação e a organização metodológica do projeto QGIS (.qgz) utilizado para elaboração do mapa de classificação fundiária dos imóveis rurais inseridos nas sub-bacias do Alto e Médio Rio São Bartolomeu e do Ribeirão Sobradinho, na Bacia Hidrográfica do Rio São Bartolomeu, Distrito Federal.
+
+O produto tem como objetivo representar a distribuição espacial dos imóveis rurais segundo sua dimensão em Módulos Fiscais (MF), além de contextualizar essa estrutura fundiária em relação às unidades hidrográficas, terras da União, assentamentos da Reforma Agrária e demais referências territoriais utilizadas na área de estudo.
+
+A classificação dos imóveis foi organizada nas seguintes categorias:
+
+- Minifúndio: < 1 MF;
+- Pequena Propriedade: 1–4 MF;
+- Média Propriedade: 4–15 MF;
+- Latifúndio: > 15 MF.
+
+O projeto também incorpora uma síntese estatística da distribuição dos imóveis por classe fundiária, permitindo relacionar a quantidade de imóveis à área ocupada por cada classe.
+
+A estrutura geral do processamento pode ser representada por:
+
+DADOS FUNDIÁRIOS
+
+        │
+
+        ├── Imóveis rurais
+        ├── Geometria dos imóveis
+        ├── Módulos Fiscais
+        └── Unidades hidrográficas
+
+                │
+
+                ▼
+
+        RECORTE ESPACIAL
+
+                │
+
+        ├── Área de estudo
+        └── Unidades hidrográficas
+
+                │
+
+                ▼
+
+       CLASSIFICAÇÃO FUNDIÁRIA
+
+                │
+
+        ├── Minifúndio
+        ├── Pequena Propriedade
+        ├── Média Propriedade
+        └── Latifúndio
+
+                │
+
+                ▼
+
+       ESTATÍSTICAS FUNDIÁRIAS
+
+                │
+
+        ├── Número de imóveis
+        ├── Área total
+        ├── Proporção de imóveis
+        └── Proporção da área ocupada
+
+                │
+
+                ▼
+
+        REPRESENTAÇÃO CARTOGRÁFICA
+
+
+## 2. Sistema de referência espacial
+
+As operações espaciais e a composição cartográfica foram padronizadas para:
+
+SIRGAS 2000 / UTM Zona 23S
+
+EPSG:31983
+
+
+## 3. Área de estudo
+
+A área de estudo corresponde ao recorte da Bacia Hidrográfica do Rio São Bartolomeu utilizado para análise dos imóveis rurais.
+
+O mapa principal contempla as sub-bacias:
+
+- Alto Rio São Bartolomeu;
+- Médio Rio São Bartolomeu;
+- Ribeirão Sobradinho.
+
+As unidades hidrográficas foram utilizadas como referência espacial para organização e contextualização da estrutura fundiária.
+
+
+## 4. Organização das camadas
+
+`1_imoveis_rurais`
+
+`bacias_hidrograficas_df`
+
+`unidades_hidrograficas_df_contorno`
+
+`terras_da_uniao (sombreamento)`
+
+`terras_da_uniao (faz. salvia)`
+
+`car_aoi`
+
+`car_goi_geom`
+
+`estatisticas`
+
+`Estatistica_Classes_AOI`
+
+
+## 5. Base de imóveis rurais
+
+A camada `car_aoi` constitui a principal camada temática do projeto.
+
+Ela representa os imóveis rurais inseridos na área de análise e constitui a unidade espacial utilizada para a classificação fundiária.
+
+Os polígonos dos imóveis foram utilizados para representar a distribuição espacial das propriedades e estabelecer sua relação com as unidades hidrográficas e demais elementos territoriais.
+
+
+## 6. Recorte espacial dos imóveis
+
+A base cadastral dos imóveis rurais foi submetida ao recorte correspondente à área de estudo.
+
+O procedimento teve como finalidade restringir a análise aos imóveis inseridos na área definida para o projeto.
+
+A camada resultante foi incorporada ao QGIS como base para a classificação e representação cartográfica.
+
+
+## 7. Classificação por Módulos Fiscais
+
+A classificação fundiária foi realizada utilizando o número de Módulos Fiscais (MF) associado aos imóveis.
+
+Foram estabelecidas quatro classes:
+
+### Minifúndio
+
+Imóveis com área inferior a 1 Módulo Fiscal:
+
+`< 1 MF`
+
+### Pequena Propriedade
+
+Imóveis com área entre 1 e 4 Módulos Fiscais:
+
+`1–4 MF`
+
+### Média Propriedade
+
+Imóveis com área entre 4 e 15 Módulos Fiscais:
+
+`4–15 MF`
+
+### Latifúndio
+
+Imóveis com área superior a 15 Módulos Fiscais:
+
+`> 15 MF`
+
+A classificação foi realizada no banco de dados espacial, todas as consultas espaciais realizadas estão disponíveis no diretório `1_postgis`
+
+
+## 8. Representação cartográfica das classes fundiárias
+
+As classes fundiárias foram representadas por simbologia categorizada.
+
+A legenda do mapa apresenta:
+
+- Minifúndio: < 1 MF;
+- Pequena Propriedade: 1–4 MF;
+- Média Propriedade: 4–15 MF;
+- Latifúndio: > 15 MF.
+
+A simbologia permite visualizar a distribuição espacial das diferentes categorias de imóveis na área de estudo.
+
+
+## 9. Terras da União
+
+As terras da União foram incorporadas ao projeto como informação territorial complementar.
+
+A camada utilizada é a: 
+
+`terras_da_uniao (faz. s***a)` 
+
+**o nome da fazenda pertencente a União foi ocultado para preservação dos dados fundiários que permitam associação a qualquer outro proprietário.**
+
+Essas camadas foram utilizadas para contextualizar a estrutura fundiária dos imóveis rurais em relação às áreas pertencentes à União presentes na área analisada.
+
+A representação das terras da União possui função de referência territorial e não constitui uma classe de imóvel rural utilizada no cálculo das estatísticas fundiárias.
+
+
+## 10. Assentamentos da Reforma Agrária
+
+Os assentamentos da Reforma Agrária foram representados como elemento territorial principal, sendo destacados no mapa por simbologia própria, diferenciando-os das demais propriedades rurais.
+
+## 11. Unidades hidrográficas
+
+As unidades hidrográficas foram utilizadas para contextualização da distribuição fundiária no território.
+
+A camada:
+
+`unidades_hidrograficas_df_contorno`
+
+foi utilizada para representar os limites das unidades hidrográficas.
+
+No mapa principal são destacadas as unidades:
+
+- Ribeirão Sobradinho;
+- Alto Rio São Bartolomeu;
+- Médio Rio São Bartolomeu.
+
+A representação permite relacionar a estrutura fundiária à organização territorial da bacia hidrográfica.
+
+
+## 12. Bacias hidrográficas
+
+A camada:
+
+`bacias_hidrograficas_df`
+
+foi utilizada como referência hidrográfica para contextualização espacial do produto.
+
+Sua função é estabelecer o enquadramento dos imóveis analisados dentro da estrutura hidrográfica do Distrito Federal, destacando a Bacia do Rio São Bartolomeu representada no mapa de localização. 
+
+
+## 13. Estatísticas fundiárias
+
+Além da representação espacial dos imóveis, o projeto incorpora estatísticas associadas às classes fundiárias.
+
+A camada/tabela:
+
+`Estatistica_Classes_AOI`
+
+foi utilizada para representar a síntese quantitativa da estrutura fundiária.
+
+As estatísticas contemplam:
+
+- total de imóveis;
+- área total;
+- percentual de imóveis por classe;
+- percentual da área ocupada por classe.
+
+No layout final, esses resultados são apresentados na tabela:
+
+**Estatísticas Fundiárias de Imóveis Rurais**.
+
+**As consultas espaciais e cálculos para extração das estatísticas estão regitradas no diretório `1_postgis`.
+
+
+## 14. Síntese estatística observada
+
+Conforme apresentado no layout cartográfico, a distribuição dos imóveis por classe fundiária é:
+
+| Classe Fundiária      | Total de Imóveis  | Área Total (ha)   | Imóveis por Classe (%)    | Área Ocupada (%)|
+|---                    |---:               |---:               |---:                       |---:             |
+| Latifúndio            | 52                | 866672,95         | 9,22                      | 94,31           |
+| Média Propriedade     | 82                | 3241,74           | 14,54                     | 3,53            |
+| Pequena Propriedade   | 137               | 1385,25           | 24,29                     | 1,51            |
+| Minifúndio            | 293               | 597,93            | 51,95                     | 0,65            |
+
+Os valores são apresentados no layout como síntese estatística da estrutura fundiária da área de estudo.
+
+
+## 15. Análise da concentração fundiária
+
+A classificação dos imóveis permite comparar a participação relativa das diferentes classes tanto em número de propriedades quanto em área ocupada.
+
+A representação cartográfica e a tabela estatística possibilitam observar a diferença entre a distribuição quantitativa dos imóveis e a distribuição espacial de suas áreas.
+
+Essa abordagem permite evidenciar a estrutura fundiária da área analisada, distinguindo a participação das propriedades de menor dimensão daquelas classificadas nas categorias de maior dimensão.
+
+
+## 16. Relação entre quantidade de imóveis e área ocupada
+
+A análise foi organizada em duas dimensões complementares:
+
+### Distribuição dos imóveis
+
+Representa a participação percentual de cada classe no número total de imóveis.
+
+### Distribuição da área
+
+Representa a participação percentual de cada classe na área total ocupada pelos imóveis analisados.
+
+Essa distinção é fundamental para a interpretação da estrutura fundiária, pois uma classe pode apresentar grande quantidade de imóveis e, simultaneamente, representar pequena parcela da área total.
+
+Da mesma forma, uma classe com menor número de imóveis pode concentrar parcela expressiva da área analisada.
+
+
+## 17. Procedimentos de geoprocessamento
+
+Os procedimentos espaciais utilizados no projeto compreenderam:
+
+- recorte dos imóveis pela área de estudo;
+- recorte das unidades hidrográficas;
+- seleção espacial por expressão dos imóveis;
+- organização da geometria dos imóveis;
+- classificação por Módulos Fiscais;
+- categorização dos imóveis;
+- sobreposição com unidades hidrográficas;
+- sobreposição com terras da União;
+- organização das estatísticas;
+- configuração da simbologia;
+
+As operações foram realizadas no ambiente QGIS, com apoio das consultas e tratamentos realizados no PostgreSQL/PostGIS.
+
+
+## 18. Integração com PostgreSQL/PostGIS
+
+As consultas e tratamentos relacionados aos imóveis rurais e às estatísticas fundiárias foram organizados na pasta:
+
+`1_postgis/`
+
+Os scripts relacionados ao fluxo incluem:
+
+`car_aoi.sql`
+
+`classificacao_fundiaria.sql`
+
+`estatisticas_fundiarias.sql`
+
+`recorte_uhs_aoi.sql`
+
+Esses procedimentos foram utilizados para preparar e organizar os dados posteriormente incorporados ao projeto QGIS.
+
+
+## 19. Fontes dos dados
+
+Conforme indicado no layout, foram utilizadas como fontes principais:
+
+- Imóveis rurais — SICAR/SFB;
+- Unidades Hidrográficas — SEMA;
+- Mesorregiões — IBGE;
+- Assentamentos da Reforma Agrária — INCRA.
+
+As demais camadas derivadas e produtos estatísticos foram elaborados a partir dessas bases e dos procedimentos descritos no fluxo metodológico.
+
+
+## 20. Fluxo metodológico
+
+O fluxo geral do produto pode ser sintetizado em:
+
+BASE DO CAR
+
+        │
+
+        ▼
+
+RECORTE PARA A ÁREA DE ESTUDO
+
+        │
+
+        ▼
+
+ORGANIZAÇÃO DOS IMÓVEIS
+
+        │
+
+        ▼
+
+CLASSIFICAÇÃO POR MÓDULOS FISCAIS
+
+        │
+
+        ├── < 1 MF
+        ├── 1–4 MF
+        ├── 4–15 MF
+        └── > 15 MF
+
+        │
+
+        ▼
+
+ESTATÍSTICAS POR CLASSE
+
+        │
+
+        ├── Número de imóveis
+        ├── Área total
+        ├── % de imóveis
+        └── % da área ocupada
+
+        │
+
+        ▼
+
+INTEGRAÇÃO COM BASES TERRITORIAIS
+
+        │
+
+        ├── Unidades hidrográficas
+        ├── Bacias hidrográficas
+        ├── Terras da União
+        ├── Assentamentos
+        └── Mesorregiões
+
+        │
+
+        ▼
+
+SIMBOLOGIA E COMPOSIÇÃO CARTOGRÁFICA
+
+        │
+
+        ▼
+
+PRODUTO FINAL
+
+
+## 21. Estrutura lógica da análise fundiária
+
+A metodologia permite analisar a estrutura fundiária a partir da relação:
+
+DIMENSÃO DOS IMÓVEIS
+
+        +
+
+NÚMERO DE PROPRIEDADES
+
+        +
+
+ÁREA OCUPADA
+
+        +
+
+DISTRIBUIÇÃO ESPACIAL
+
+        │
+
+        ▼
+
+ESTRUTURA FUNDIÁRIA DA ÁREA DE ESTUDO
+
+Essa abordagem permite diferenciar a concentração espacial dos imóveis segundo sua dimensão e comparar a participação relativa de cada classe na quantidade total de propriedades e na área ocupada.
+
+
+## 22. Limitações
+
+A classificação apresentada é dependente da qualidade, completude e atualização da base cadastral do Sistema de Cadastro de Imóveis Rurais (SICAR)
+
+A classificação por Módulos Fiscais deve ser interpretada de acordo com os critérios e informações cadastrais empregados na construção da base.
+
+A presença de um imóvel no cadastro não constitui, isoladamente, comprovação de domínio ou titularidade da propriedade.
+
+Da mesma forma, a representação espacial dos imóveis e sua classificação fundiária não permite inferir, isoladamente, relações de posse, propriedade efetiva, exploração econômica ou concentração de renda.
+
+**As estatísticas representam os imóveis incluídos no recorte e na base de dados disponibilizada pelo SICAR e não possuem acurácia absoluta devido a sobreposição de polígonos na malha, implicando em impreciões matemáticas, principalmente na área delimitada como 'Terras da União'.**
+

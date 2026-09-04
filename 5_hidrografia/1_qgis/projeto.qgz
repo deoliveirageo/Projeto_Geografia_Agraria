@@ -1,0 +1,668 @@
+# Documentação e fluxo metodológico utilizado no QGIS para elaboração do mapa de Hidrografia e Acessibilidade à Água
+
+## 1. Identificação do projeto
+
+Este diretório contém a documentação e a organização metodológica do projeto QGIS (.qgz) utilizado para a elaboração dos produtos cartográficos relacionados à hidrografia, delimitação de bacias e sub-bacias hidrográficas, extração e classificação da rede de drenagem, caracterização hipsométrica e análise da distância euclidiana dos assentamentos rurais aos canais de drenagem na área de estudo, no Distrito Federal.
+
+O projeto foi estruturado para representar a organização da drenagem na área de estudo e avaliar, de forma espacial, a proximidade dos assentamentos rurais aos canais de drenagem.
+
+A organização do projeto segue uma lógica de separação entre:
+
+DADOS DE ENTRADA
+
+        │
+
+        ├── Modelo Digital de Elevação — SRTM 30 m
+        │
+        ├── Unidades hidrográficas
+        │
+        └── Assentamentos rurais
+
+                │
+
+                ▼
+
+       PRÉ-PROCESSAMENTO DO MDE
+
+                │
+
+        ├── Recorte do MDE
+        ├── Preenchimento de depressões espúrias
+        └── Preparação do raster hidrologicamente condicionado
+
+                │
+
+                ▼
+
+        MODELAGEM HIDROGRÁFICA — SAGA
+
+                │
+
+        ├── Strahler Order
+        ├── Junctions
+        ├── Drainage Basins
+        ├── Sub-basins
+        └── Channels
+
+                │
+
+                ▼
+
+       PRODUTOS HIDROGRÁFICOS
+
+                │
+
+        ├── Rede de drenagem
+        ├── Ordem de Strahler
+        ├── Confluências
+        ├── Nascentes
+        ├── Foz 
+        ├──exutório
+        ├── Microbacias
+        └── Sub-bacias
+
+                │
+
+                ▼
+
+      ANÁLISE DE ACESSIBILIDADE
+
+                │
+
+        ├── Centróide médio dos assentamentos
+        ├── Buffer de 10 km
+        ├── Recorte dos canais
+        ├── Rasterização dos canais
+        └── Distância Euclidiana
+
+                │
+
+                ▼
+
+          PRODUTOS CARTOGRÁFICOS
+
+                │
+
+        ├── Delimitação das sub-bacias
+        ├── Rede hidrográfica hierarquizada
+        ├── Hipsometria
+        └── Distância dos assentamentos aos canais
+
+
+## 2. Sistema de referência espacial
+
+As operações espaciais foram padronizadas para o sistema:
+
+SIRGAS 2000 / UTM Zona 23S
+
+EPSG:31983
+
+O sistema projetado em coordenadas métricas foi utilizado para as operações de recorte, geração de buffers, cálculo de distâncias, representação cartográfica e demais procedimentos espaciais.
+
+
+## 3. Área de estudo
+
+O recorte espacial utilizado para análise da hidrografia e da acessibilidade à água na Bacia Hidrográfica do Rio São Bartolomeu foi delimitado à partir das sub-bacias que intersectam os assentamentos rurais da área de estudo. 
+
+No produto cartográfico foram destacadas as unidades hidrográficas:
+
+Alto Rio São Bartolomeu;
+
+Médio Rio São Bartolomeu;
+
+Ribeirão Sobradinho.
+
+As unidades hidrográficas foram utilizadas como referência espacial para contextualização da rede de drenagem e da organização das sub-bacias e microbacias.
+
+
+## 4. Camadas utilizadas no QGIS
+
+O projeto QGIS foi organizado para reunir as camadas de entrada, produtos intermediários e produtos derivados da modelagem hidrológica.
+
+### Camadas de referência
+
+- `uhs_aoi`
+
+### Pré-processamento do MDE
+
+- `SRTM_30M_AOI_Recorte`
+- `SRTM_Clip_Fill`
+
+### Modelagem hidrográfica
+
+- `Drainage_Basins_SAGA`
+- `Drainage_Basins_Vector`
+- `Channels`
+- `Strahler Order`
+- `Junctions`
+- `Channels`
+
+### Análise de distância aos canais
+
+- `Assentamento_1`
+- `Assentamento_2`
+- `Assentamento_3`
+
+- `centroide_poligono_aoi`
+- `buffer_ade`
+- `Canais_Buffer_Rasterizado`
+- `Buffer_Canais_Drenagem_300m`
+
+### Hipsometria 
+
+- `SRTM_30M_AOI_Recorte` 
+- `SRTM_30M_AOI_Recorte (Sombreamento - Analise Hidrográfica)`
+
+## 5. Pré-processamento do Modelo Digital de Elevação
+
+O Modelo Digital de Elevação SRTM com resolução espacial de 30 m foi utilizado como base matricial para a modelagem hidrográfica.
+
+Inicialmente, o MDE foi recortado para a área de interesse, produzindo a camada:
+
+`SRTM_30M_AOI_Recorte`
+
+O recorte teve como finalidade restringir o processamento à área efetivamente analisada e reduzir o volume de dados utilizado nas etapas subsequentes.
+
+
+## 6. Correção de depressões espúrias
+
+Após o recorte, o MDE foi submetido ao preenchimento de depressões espúrias.
+
+Foi utilizado o algoritmo:
+
+**Fill Sinks (Wang & Liu)**
+
+A operação foi realizada com o objetivo de produzir uma superfície topográfica hidrologicamente condicionada, reduzindo interferências decorrentes de depressões artificiais ou inconsistências locais do modelo de elevação.
+
+O resultado foi utilizado como MDE de entrada para as etapas posteriores de modelagem da drenagem.
+
+A camada resultante é representada no projeto por:
+
+`SRTM_Clip_Fill`
+
+O preenchimento de depressões constitui etapa de pré-processamento necessária para a modelagem baseada em fluxo, uma vez que permite estabelecer continuidade hidrológica na superfície utilizada pelo algoritmo.
+
+
+## 7. Análise hidrográfica com SAGA
+
+A extração da rede de drenagem e das unidades de contribuição foi realizada no QGIS por meio do provedor SAGA.
+
+Foi utilizado o algoritmo:
+
+**Drainage Basins and Channels Network**
+
+O algoritmo foi aplicado sobre o MDE previamente corrigido pelo procedimento de preenchimento de depressões.
+
+O processamento permitiu obter simultaneamente informações relacionadas à organização da rede de drenagem e à delimitação das áreas de contribuição.
+
+
+## 8. Extração da ordem de Strahler
+
+A ordem hierárquica dos canais foi obtida a partir do processamento hidrográfico realizado pelo SAGA.
+
+O resultado:
+
+`Strahler Order`
+
+foi utilizado para classificar os canais segundo sua posição hierárquica na rede de drenagem.
+
+A ordem de Strahler foi incorporada à representação cartográfica por meio de diferentes espessuras de linha, permitindo visualizar a hierarquia da rede de drenagem.
+
+No layout final foram representadas as ordens:
+
+Ordem 1;
+
+Ordem 2;
+
+Ordem 3;
+
+Ordem 4;
+
+Ordem 5.
+
+
+## 9. Identificação das confluências
+
+O processamento hidrográfico também permitiu extrair os pontos de junção da rede de drenagem.
+
+O produto:
+
+`Junctions`
+
+foi utilizado para representar espacialmente os pontos de confluência entre canais.
+
+Esses pontos foram incorporados à composição cartográfica como elementos pontuais da rede hidrográfica.
+
+
+## 10. Identificação de nascentes e foz
+
+A rede hidrográfica foi complementada por pontos derivados da análise da estrutura da drenagem.
+
+Foram utilizados pontos referentes a:
+
+nascentes;
+
+confluências;
+
+foz; 
+
+exutório;
+
+Esses elementos permitem interpretar a organização espacial da rede de drenagem e a direção de convergência dos fluxos.
+
+No mapa final, os pontos foram representados por simbologias distintas para facilitar a diferenciação entre nascentes, confluências e exutório.
+
+
+## 11. Delimitação das bacias e sub-bacias
+
+O processamento realizado pelo SAGA também permitiu delimitar as áreas de contribuição da rede de drenagem.
+
+Foram obtidos produtos relacionados às:
+
+bacias de drenagem;
+
+sub-bacias;
+
+microbacias.
+
+O produto raster:
+
+`Drainage_Basins_SAGA`
+
+foi utilizado como resultado matricial da delimitação das áreas de contribuição e suas micro-bacias; 
+
+
+`Drainage_Basins_Vector`
+
+delimitação das macro-bacias do recorte; 
+
+
+## 12. Extração e representação dos canais
+
+A rede de canais obtida pela análise hidrográfica foi organizada na camada:
+
+`Channels`
+
+Essa camada representa os segmentos da rede de drenagem extraídos a partir do MDE.
+
+Os canais foram posteriormente relacionados à ordem hierárquica de Strahler para a representação da estrutura da rede.
+
+A simbologia foi configurada de modo que os canais de maior ordem apresentassem maior destaque visual, permitindo interpretar a hierarquia da drenagem.
+
+
+## 13. Delimitação das sub-bacias do Rio São Bartolomeu
+
+O produto de delimitação das áreas de contribuição foi utilizado para organizar espacialmente as sub-bacias associadas à área de estudo.
+
+As sub-bacias foram relacionadas às unidades hidrográficas utilizadas como referência territorial.
+
+A composição cartográfica apresenta a delimitação das sub-bacias do Rio São Bartolomeu em conjunto com a rede de drenagem hierarquizada.
+
+
+## 14. Hipsometria
+
+O MDE SRTM também foi utilizado para produzir a representação hipsométrica da área de estudo na visualização 3D com a sobreposição da camada de sombreamento do MDE; 
+
+A hipsometria foi utilizada como recurso de visualização do gradiente altimétrico do território.
+
+O produto permite representar a variação das elevações e sua relação espacial com a organização da rede de drenagem.
+
+A representação hipsométrica foi incorporada ao layout como painel complementar à análise hidrográfica.
+
+A hipsometria possui finalidade principalmente descritiva e cartográfica, permitindo visualizar a estrutura altimétrica da área de estudo.
+
+
+## 15. Sombreamento do relevo
+
+A partir do MDE foi produzido um produto de sombreamento do relevo para apoio à interpretação visual da superfície topográfica e hipsométrica; 
+
+O sombreamento foi utilizado como elemento auxiliar à visualização da morfologia do terreno 
+
+O produto é representado no projeto pela camada:
+
+`SRTM_30M_AOI_Recorte (Sombreamento - Analise Hidrográfica)`
+
+
+## 16. Análise de distância dos assentamentos aos canais
+
+A segunda frente de análise do projeto corresponde à avaliação da distância entre os assentamentos rurais e os canais de drenagem.
+
+Foram considerados três polígonos de assentamentos rurais:
+
+`Assentamento_1`
+
+`Assentamento_2`
+
+`Assentamento_3`
+
+A análise teve como objetivo produzir uma representação espacial contínua da distância aos canais de drenagem nas áreas próximas aos assentamentos.
+
+
+## 17. Determinação do centroide médio dos assentamentos
+
+Para definir a área operacional da análise de distância, foi calculado um ponto representativo a partir dos polígonos dos três assentamentos rurais. O centróide foi calculado à partir da triangulação dos centróides de cada um dos polígonos dos assentamentos. 
+
+O resultado foi armazenado na camada:
+
+`centroide_poligono_aoi`
+
+O centroide médio foi utilizado como ponto de referência para geração do buffer que delimitou a área de análise dos canais.
+
+**a consulta realizada no banco de dados para extração do centróide está no diretório `2_postgis` aqrquivo `centroide.sql`** 
+
+## 18. Buffer de 10 km
+
+A partir do centroide médio dos assentamentos foi gerado um buffer de:
+
+**10 km**
+
+O buffer foi utilizado como área operacional para seleção dos canais de drenagem próximos ao conjunto de assentamentos analisado.
+
+A camada correspondente é:
+
+`buffer_ade (Euclidiana)`
+
+O procedimento permitiu restringir a análise de distância aos canais espacialmente inseridos na área de influência operacional definida para o estudo.
+
+O buffer de 10 km não representa uma distância hidrogeológica ou hidrológica de influência. Trata-se de um recorte operacional estabelecido para limitar espacialmente a análise de acessibilidade aos canais mais próximos dos assentamentos rurais. 
+
+
+## 19. Recorte dos canais de drenagem
+
+Após a geração do buffer de 10 km, a rede de drenagem foi submetida a um recorte espacial.
+
+Foram mantidos os canais localizados dentro da área delimitada pelo buffer.
+
+O procedimento permitiu reduzir a extensão da rede de drenagem considerada na análise de distância e concentrar o processamento na área de interesse dos assentamentos.
+
+
+## 20. Rasterização dos canais
+
+A rede de drenagem recortada foi convertida de formato vetorial para raster.
+
+A camada rasterizada dos canais foi utilizada como superfície de origem para o cálculo da distância Euclidiana.
+
+O produto intermediário é representado no projeto por:
+
+`Canais_Buffer_Rasterizado`
+
+A rasterização foi realizada de forma compatível com a grade espacial utilizada no cálculo de distância.
+
+
+## 21. Distância Euclidiana
+
+A distância dos canais de drenagem foi calculada por meio da ferramenta de análise raster de distância Euclidiana do QGIS.
+
+A distância foi calculada a partir das células correspondentes aos canais rasterizados.
+
+O resultado é uma superfície contínua na qual cada célula representa a distância em relação ao canal de drenagem mais próximo.
+
+A análise foi limitada ao recorte espacial definido para os assentamentos.
+
+
+## 22. Buffer contínuo de 300 metros
+
+Para a representação cartográfica da proximidade aos canais, foi utilizado um intervalo contínuo de até:
+
+**300 m**
+
+a partir da rede de drenagem.
+
+O resultado foi representado por classes de distância no mapa:
+
+≤ 59 m;
+
+59–108 m;
+
+108–157 m;
+
+157–206 m;
+
+> 206 m.
+
+A classificação foi utilizada para facilitar a interpretação visual da proximidade dos assentamentos aos canais de drenagem.
+
+A representação cartográfica possui caráter espacial e indicativo e não significa, por si só, disponibilidade efetiva de água para abastecimento ou possibilidade de captação.
+
+
+## 23. Organização da análise de acessibilidade
+
+A sequência metodológica da análise de distância pode ser sintetizada em:
+
+ASSENTAMENTOS RURAIS
+
+        │
+
+        ├── Assentamento 1
+        ├── Assentamento 2
+        └── Assentamento 3
+
+                │
+
+                ▼
+
+       CENTROIDE MÉDIO DOS POLÍGONOS
+
+                │
+
+                ▼
+
+             BUFFER 10 km
+
+                │
+
+                ▼
+
+      RECORTE DOS CANAIS DE DRENAGEM
+
+                │
+
+                ▼
+
+             RASTERIZAÇÃO
+
+                │
+
+                ▼
+
+         DISTÂNCIA EUCLIDIANA
+
+                │
+
+                ▼
+
+        DISTÂNCIA AOS CANAIS
+
+                │
+
+                ▼
+
+       CLASSIFICAÇÃO CARTOGRÁFICA
+
+                │
+
+                ▼
+
+     MAPA DE ACESSIBILIDADE À ÁGUA
+
+
+## 24. Organização da análise hidrográfica
+
+A sequência de processamento hidrográfico pode ser sintetizada em:
+
+MDE SRTM — 30 m
+
+        │
+
+        ▼
+
+     RECORTE
+
+        │
+
+        ▼
+
+FILL SINKS — WANG & LIU
+
+        │
+
+        ▼
+
+MDE HIDROLOGICAMENTE CONDICIONADO
+
+        │
+
+        ▼
+
+DRAINAGE BASINS AND CHANNELS NETWORK — SAGA
+
+        │
+
+        ├───────────────┬───────────────┬───────────────┐
+        │               │               │               │
+        ▼               ▼               ▼               ▼
+    CHANNELS       STRAHLER ORDER   JUNCTIONS    DRAINAGE BASINS
+        │               │               │               │
+        │               │               │               ▼
+        │               │               │          SUB-BASINS
+        │               │               │               │
+        └───────────────┴───────────────┴───────────────┘
+                                │
+                                ▼
+                     REPRESENTAÇÃO HIDROGRÁFICA
+
+                                │
+
+                                ▼
+
+                      PRODUTO CARTOGRÁFICO
+
+
+
+## 25. Organização do mapa auxilair de Hipsometria
+
+MDE SRTM — 30 m
+
+        │
+
+        ▼
+
+     RECORTE
+
+        │
+
+        ▼
+
+Simbologia de camada falsa-cor 
+
+        │
+
+        ▼
+Sobreposição de MDE com sombreamento 
+
+        │
+
+        ▼
+edição 3D no QGIS
+
+        │
+
+        ▼
+ Produto Final
+
+
+**A hipsometria foi incorporada ao layout como produto complementar à análise hidrográfica. O painel hipsométrico permite visualizar a variação altimétrica do território e fornece contexto geomorfológico para a interpretação da organização da drenagem.O MDE utilizado apresenta resolução espacial de 30 m, conforme a base SRTM utilizada no projeto.**
+
+## 26. Fontes dos dados
+
+Conforme indicado no produto cartográfico, foram utilizadas como referências:
+
+SRTM — Modelo Digital de Elevação de 30 m;
+
+unidades hidrográficas;
+
+hidrografia derivada por processamento SAGA;
+
+assentamentos rurais — INCRA;
+
+pontos de nascentes, confluências, foz e exutório derivados da análise hidrográfica no SAGA à partir do MDE; 
+
+
+
+## 27. Integração entre hidrografia e acessibilidade à água
+
+O projeto foi estruturado em duas dimensões complementares:
+
+### Dimensão hidrográfica
+
+MDE
+
+↓
+
+MDE corrigido
+
+↓
+
+Rede de drenagem
+
+↓
+
+Ordem de Strahler
+
+↓
+
+Confluências, nascentes, foz e exutório
+
+↓
+
+Bacias, sub-bacias e microbacias
+
+
+### Dimensão de acessibilidade
+
+Assentamentos
+
+↓
+
+Centroide médio
+
+↓
+
+Buffer de 10 km
+
+↓
+
+Canais recortados
+
+↓
+
+Rasterização
+
+↓
+
+Distância Euclidiana
+
+↓
+
+Classes de proximidade aos canais
+
+
+As duas dimensões foram integradas no layout final para permitir a leitura conjunta da organização da rede hidrográfica e da proximidade espacial dos assentamentos aos canais de drenagem.
+
+
+## 28. Limitações da análise de acessibilidade
+
+A distância Euclidiana representa a menor distância espacial entre cada célula e os canais de drenagem considerados. O resultado não incorpora:
+
+declividade do terreno, barreiras físicas, qualidade da água ou possibilidade técnica ou legal de captação.
+
+Consequentemente, o mapa deve ser interpretado como uma análise de proximidade espacial aos canais de drenagem e não como uma estimativa direta de disponibilidade ou acessibilidade efetiva à água.
+
+
+## 29. Limitações da modelagem hidrográfica
+
+A qualidade do resultado depende da resolução e das características do MDE, dos parâmetros empregados no processamento e das condições da superfície representada.
+
+A ordem de Strahler e os demais elementos derivados representam a estrutura topográfica da rede modelada e não substituem necessariamente uma base hidrográfica oficial de maior detalhe.
+
+Os resultados devem, portanto, ser interpretados como produtos derivados da modelagem digital do terreno.

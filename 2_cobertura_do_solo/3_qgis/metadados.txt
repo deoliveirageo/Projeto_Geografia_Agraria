@@ -1,0 +1,5 @@
+| Plano de Informação                 | Camada                            | Formato             | Fonte / Instituição | Escala / Resolução | SRC                                | Ano        |
+|-------------------------------------|---------------------------------- |---------------------|---------------------|--------------------|------------------------------------|------------|
+| **Uso e Cobertura do Solo**         | landcoverage_2024_aoi_classificado| GeoTIFF / Raster    | MapBiomas           | 30 m               | SIRGAS 2000 / UTM 23S – EPSG:31983 | 2024       |
+| **Unidades Hidrográficas**          | uhs_aoi                           | Vetorial / Polygon  | SEMA                | Conforme fonte     | SIRGAS 2000 / UTM 23S – EPSG:31983 | 2022       |
+| **Estatísticas de Uso e Cobertura** | Tabela_Estatisticas_Cobertura_ha  | Tabela              | Produto derivado    | —                  | —                                  | 2024       |
