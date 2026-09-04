@@ -281,7 +281,6 @@ Este repositório tem finalidade acadêmica e técnico-profissional, destinando-
 
 ## Acesso à coleção de mapas no Spatialnode: 
 
-```text
 
 - **Mapa 1 — Imóveis Rurais**  
   [Acessar interpretação no SpatialNode](https://spatialnode.net/projects/imoveis-rurais-estrutura-fundiaria-a301ab)
@@ -298,4 +297,4 @@ Este repositório tem finalidade acadêmica e técnico-profissional, destinando-
 - **Mapa 5 — Hidrografia e Acessibilidade à Água**  
   [Acessar interpretação no SpatialNode](Ihttps://spatialnode.net/projects/hidrografia-01a0bc)
 
-``` 
+
