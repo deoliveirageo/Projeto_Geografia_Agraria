@@ -1,4 +1,6 @@
-# Projeto de Estágio de Graduação Aplicado à Pesquisa em Geografia Agrária: Os Assentamentos da Reforma Agrária na Bacia Hidrográfica do Rio São Bartolomeu / DF
+# Projeto de Estágio de Graduação Aplicado à Pesquisa em Geografia Agrária: 
+
+Os Assentamentos da Reforma Agrária na Bacia Hidrográfica do Rio São Bartolomeu - DF
 
 **A Cartografia Digital e a Análise de Dados Geográficos como Práxis na Interpretação Crítica do Território**
 
@@ -238,6 +240,7 @@ Projeto_Geografia_Agraria/
     ├── 1_qgis/
     └── 2_postgis/
 
+´´´
 
 A numeração dos diretórios corresponde aos cinco eixos analíticos do projeto.
 
@@ -275,7 +278,7 @@ STÉDILE, João Pedro (org.). A questão agrária no Brasil: o debate na esquerd
 
 Este repositório tem finalidade acadêmica e técnico-profissional, destinando-se à documentação dos procedimentos de geoprocessamento e análise espacial desenvolvidos durante o estágio.
 
-
+```text
 ## Acesso aos mapas: 
 
 - **Mapa 1 — Imóveis Rurais**  
@@ -292,5 +295,4 @@ Este repositório tem finalidade acadêmica e técnico-profissional, destinando-
 
 - **Mapa 5 — Hidrografia e Acessibilidade à Água**  
   [Acessar interpretação no SpatialNode](Ihttps://spatialnode.net/projects/hidrografia-01a0bc)
-
-
+´´´ 
