@@ -86,6 +86,7 @@ análise meteorológica sazonal, por meio de precipitação acumulada e déficit
 
 As duas frentes são posteriormente integradas para interpretar a resposta da cobertura vegetal às condições ambientais sazonais.
 
+```text
                          DADOS DE ENTRADA
                                │
              ┌─────────────────┴─────────────────┐
@@ -123,6 +124,7 @@ As duas frentes são posteriormente integradas para interpretar a resposta da co
        ▼                ▼
  Curva sazonal     Curva histórica
     de NDVI           de NDVI
+```
 
 5. Sistema de referência espacial
 
