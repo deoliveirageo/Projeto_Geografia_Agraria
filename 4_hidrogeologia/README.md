@@ -1030,7 +1030,7 @@ ADASA
 
 Agência Reguladora de Águas, Energia e Saneamento Básico do Distrito Federal. Manual Técnico e Administrativo de Outorga de Direito de Uso de Recursos Hídricos no Distrito Federal. Brasília, 2021.
 
-O manual apresenta a classificação e a disponibilidade dos sistemas/subsistemas aquíferos e os procedimentos de outorga de águas subterrâneas. fileciteturn5file14
+O manual apresenta a classificação e a disponibilidade dos sistemas/subsistemas aquíferos e os procedimentos de outorga de águas subterrâneas. 
 
 EMBRAPA
 
