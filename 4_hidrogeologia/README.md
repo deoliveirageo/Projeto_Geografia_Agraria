@@ -1,8 +1,8 @@
-Hidrogeologia, Risco de Perda de Recarga e Pressão Antrópica
+## Hidrogeologia, Risco de Perda de Recarga e Pressão Antrópica
 
 Documentação do fluxo metodológico utilizado no QGIS para elaboração dos produtos cartográficos relacionados à hidrogeologia, ao risco de perda de recarga de aquíferos, à pressão antrópica sobre áreas de recarga e à exploração de águas subterrâneas na área de estudo.
 
-1. Identificação do projeto
+# 1. Identificação do projeto
 
 Este diretório reúne a documentação e a organização metodológica do eixo de hidrogeologia do Projeto de Estágio Supervisionado em Geografia.
 
@@ -58,7 +58,7 @@ EXPLORAÇÃO HÍDRICA
        ANÁLISE INTEGRADA
 ```
 
-2. Sistema de referência espacial
+# 2. Sistema de referência espacial
 
 As operações espaciais foram padronizadas para:
 
@@ -83,9 +83,9 @@ representação cartográfica.
 
 Antes do processamento, as camadas foram verificadas quanto à compatibilidade do sistema de referência espacial. Quando necessário, foi realizada a reprojeção para o SRC de trabalho.
 
-3. Camadas utilizadas no QGIS
+# 3. Camadas utilizadas no QGIS
 
-3.1 Base cartográfica
+**3.1 Base cartográfica**
 
 Foram utilizadas como referência espacial:
 
@@ -97,7 +97,7 @@ Ribeirão Sobradinho;
 
 assentamentos rurais da reforma agrária contidos na área de estudo.
 
-3.2 Hidrogeologia
+**3.2 Hidrogeologia**
 
 As camadas hidrogeológicas foram organizadas segundo a hierarquia:
 
@@ -123,7 +123,7 @@ domínio fraturado;
 
 domínio fissuro-cárstico.
 
-3.3 Risco de recarga
+**3.3 Risco de recarga**
 
 Foram utilizadas:
 
@@ -133,7 +133,7 @@ classes de risco de perda de recarga;
 
 variáveis hidrogeológicas e geomorfológicas associadas ao modelo de referência.
 
-3.4 Relevo
+**3.4 Relevo**
 
 Foram utilizadas camadas de:
 
@@ -143,11 +143,11 @@ tipos de relevo;
 
 classes selecionadas para definição de áreas prioritárias.
 
-3.5 Uso e cobertura
+**3.5 Uso e cobertura**
 
 Foi utilizado o raster de uso e cobertura da terra da Coleção 10 do MapBiomas (2024), posteriormente recortado e reclassificado para a análise de pressão antrópica.
 
-3.6 Outorgas
+**3.6 Outorgas**
 
 Foram utilizadas camadas pontuais de:
 
@@ -163,7 +163,7 @@ vazão máxima/outorgada;
 
 unidade hidrográfica.
 
-4. Área de estudo e recorte hidrogeológico
+# 4. Área de estudo e recorte hidrogeológico
 
 A área de estudo foi utilizada como máscara espacial para a preparação das camadas.
 
@@ -179,7 +179,7 @@ Ribeirão Sobradinho.
 
 A utilização das unidades hidrográficas como referência é coerente com a abordagem do ZEE-DF, que utiliza esse recorte para integrar a leitura dos riscos ecológicos e das transformações territoriais.
 
-5. Caracterização hidrogeológica
+# 5. Caracterização hidrogeológica
 
 O Distrito Federal apresenta sistemas de águas subterrâneas associados a diferentes condições geológicas e hidrogeológicas.
 
@@ -187,11 +187,11 @@ O Manual Técnico e Administrativo de Outorga da ADASA caracteriza a existência
 
 A classificação hidrogeológica utilizada no projeto procura preservar essa diferenciação espacial, evitando tratar a área de estudo como um sistema aquífero homogêneo.
 
-6. Mapas de Sistemas Aquíferos e Subsistemas Aquíferos
+# 6. Mapas de Sistemas Aquíferos e Subsistemas Aquíferos
 
 Como parte da caracterização hidrogeológica, foram incorporados dois novos produtos cartográficos, conforme a composição apresentada no layout do projeto.
 
-6.1 Mapa de Sistemas Aquíferos
+**6.1 Mapa de Sistemas Aquíferos**
 
 O mapa de Sistemas Aquíferos apresenta a distribuição espacial dos principais grupos hidrogeológicos incidentes na área de estudo.
 
@@ -205,7 +205,7 @@ Esse produto tem função de caracterização territorial. Ele permite visualiza
 
 A representação é utilizada como camada de referência para as demais análises hidrogeológicas.
 
-6.2 Mapa de Subsistemas Aquíferos
+**6.2 Mapa de Subsistemas Aquíferos**
 
 O mapa de Subsistemas Aquíferos detalha a compartimentação interna dos sistemas hidrogeológicos.
 
@@ -220,7 +220,7 @@ O detalhamento por subsistemas é particularmente importante porque a capacidade
 
 O Manual da ADASA também apresenta a organização das reservas subterrâneas por domínios, sistemas e subsistemas e utiliza essa compartimentação na análise de disponibilidade hídrica. fileciteturn5file14
 
-6.3 Função dos mapas na análise
+**6.3 Função dos mapas na análise**
 
 Os dois mapas possuem função distinta do mapa de risco:
 
@@ -245,7 +245,7 @@ Pressão antrópica + exploração hídrica
 
 Assim, os mapas de sistemas e subsistemas não devem ser confundidos com a classificação de risco. Eles representam a estrutura hidrogeológica sobre a qual os processos de recarga, produção e apropriação da água subterrânea são analisados.
 
-7. Risco de perda de recarga de aquíferos
+# 7. Risco de perda de recarga de aquíferos
 
 O modelo utilizado como referência é o Risco de Perda de Recarga de Aquíferos do ZEE-DF.
 
@@ -275,7 +275,7 @@ Esses valores evidenciam a heterogeneidade espacial do risco de perda de recarga
 
 Nota metodológica: o mapa de risco é utilizado como referência hidroambiental. O projeto não o apresenta como uma recalibração ou reconstrução integral do modelo original do ZEE-DF.
 
-8. Variável do domínio poroso
+# 8. Variável do domínio poroso
 
 O domínio poroso é importante porque participa dos processos de infiltração e recarga dos aquíferos rasos e profundos.
 
@@ -283,7 +283,7 @@ No modelo do ZEE-DF, a sensibilidade à perda de recarga está relacionada aos t
 
 A camada foi utilizada como referência para compreender a distribuição espacial das condições de infiltração e recarga.
 
-9. Compartimentação geomorfológica
+# 9. Compartimentação geomorfológica
 
 A geomorfologia é considerada uma variável de controle da recarga porque a morfologia da paisagem interfere nos fluxos verticais e laterais das águas de infiltração.
 
@@ -297,7 +297,7 @@ Planos intermediários  → Média
 Rebordos              → Alta
 Planos elevados       → Muito alta
 
-10. Variável de vazão dos sistemas e subsistemas
+# 10. Variável de vazão dos sistemas e subsistemas
 
 A terceira variável utilizada na análise de sensibilidade do ZEE-DF está relacionada às vazões registradas nos sistemas e subsistemas dos domínios fraturado e fissuro-cárstico.
 
@@ -305,7 +305,7 @@ O pressuposto metodológico é que sistemas mais produtivos apresentam maior sen
 
 No projeto, essa informação é mantida articulada aos mapas de sistemas e subsistemas, permitindo interpretar a dimensão espacial da produção hídrica subterrânea.
 
-11. Sistemas hidrogeológicos incidentes na área de estudo
+# 11. Sistemas hidrogeológicos incidentes na área de estudo
 
 Para as análises complementares foram considerados os sistemas e subsistemas relevantes que intersectam o recorte de estudo.
 
@@ -325,7 +325,7 @@ Subsistema F.
 
 Os mapas de sistemas e subsistemas permitem representar espacialmente essa compartimentação antes do cruzamento com as demais variáveis.
 
-12. Incorporação do mapa de risco ao projeto
+# 12. Incorporação do mapa de risco ao projeto
 
 O mapa de risco foi incorporado ao projeto QGIS como camada temática de referência.
 
@@ -358,7 +358,7 @@ análise complementar de pressão antrópica;
 
 análise da exploração hídrica.
 
-13. Áreas prioritárias de recarga
+# 13. Áreas prioritárias de recarga
 
 Para a análise própria de pressão antrópica foi produzida uma variável binária a partir da compartimentação do relevo.
 
@@ -379,7 +379,7 @@ Suave Ondulado.
 
 Essa classificação constitui uma adaptação operacional para a escala e finalidade da análise.
 
-14. Rasterização das áreas prioritárias
+# 14. Rasterização das áreas prioritárias
 
 Como o uso e cobertura da terra utilizado na análise está em formato raster, a camada de relevo foi convertida para uma superfície matricial compatível.
 
@@ -406,7 +406,7 @@ Resultado:
 0 — Não prioritária
 1 — Área prioritária de recarga
 
-15. Compatibilização dos rasters
+# 15. Compatibilização dos rasters
 
 Antes das operações célula-a-célula, foram verificadas:
 
@@ -424,7 +424,7 @@ tratamento dos valores NoData.
 
 Essa etapa evita deslocamentos espaciais e incompatibilidades durante a Calculadora Raster.
 
-16. Uso e cobertura da terra
+# 16. Uso e cobertura da terra
 
 O raster de uso e cobertura da Coleção 10 do MapBiomas (2024) foi utilizado para representar a ocupação territorial incidente sobre as áreas prioritárias.
 
@@ -440,7 +440,7 @@ Plantação de Soja.
 
 As demais classes foram agrupadas na categoria de referência.
 
-17. Reclassificação do uso e cobertura
+# 17. Reclassificação do uso e cobertura
 
 A variável temática foi organizada como:
 
@@ -454,7 +454,7 @@ As classes de pastagem, área urbanizada e soja foram destacadas por representar
 
 A Formação Savânica foi mantida como categoria de referência de cobertura vegetal natural ou predominantemente natural.
 
-18. Pressão antrópica sobre áreas prioritárias de recarga
+# 18. Pressão antrópica sobre áreas prioritárias de recarga
 
 A pressão antrópica foi obtida pelo cruzamento:
 
@@ -492,7 +492,7 @@ Plantação de Soja em área de recarga
 
 O produto identifica a coincidência espacial entre uso da terra e áreas consideradas prioritárias para recarga.
 
-19. Classificação do mapa de pressão antrópica
+# 19. Classificação do mapa de pressão antrópica
 
 O raster final foi organizado em:
 
@@ -506,7 +506,7 @@ A classificação permite distinguir áreas prioritárias preservadas daquelas s
 
 Importante: o termo “pressão antrópica” representa a sobreposição espacial entre usos da terra e áreas prioritárias. As classes não devem ser interpretadas automaticamente como níveis equivalentes de impacto hidrogeológico.
 
-20. Quantificação das classes de pressão
+# 20. Quantificação das classes de pressão
 
 As áreas foram calculadas em hectares.
 
@@ -552,7 +552,7 @@ Total
 
 54.311,52
 
-21. Pontos de outorga de águas subterrâneas
+# 21. Pontos de outorga de águas subterrâneas
 
 Os pontos de outorga foram incorporados como informação pontual sobre a exploração dos recursos hídricos subterrâneos.
 
@@ -574,7 +574,7 @@ sobrepostos às áreas de risco;
 
 utilizados como referência para a análise territorial da exploração hídrica.
 
-22. Atributos das outorgas
+# 22. Atributos das outorgas
 
 Os principais campos utilizados são:
 
@@ -610,7 +610,7 @@ manual;
 
 tubular.
 
-23. Estatísticas das outorgas
+# 23. Estatísticas das outorgas
 
 As outorgas foram agregadas por unidade hidrográfica.
 
@@ -632,7 +632,7 @@ Alto Rio São Bartolomeu
 Médio Rio São Bartolomeu
 Ribeirão Sobradinho
 
-24. Banco de dados PostgreSQL/PostGIS
+# 24. Banco de dados PostgreSQL/PostGIS
 
 A organização dos dados estatísticos foi realizada em banco espacial utilizando:
 
@@ -660,7 +660,7 @@ Consultas SQL
 Tabelas estatísticas
 ```
 
-25. Tabela-mestre de indicadores
+# 25. Tabela-mestre de indicadores
 
 Para evitar redundância entre diferentes tabelas estatísticas, os resultados foram integrados em uma tabela-mestre por unidade hidrográfica.
 
@@ -680,7 +680,7 @@ qtd_pocos_tubulares
 
 Essa estrutura permite utilizar uma única base para as visualizações estatísticas.
 
-26. Matriz de indicadores de uso de águas subterrâneas
+# 26. Matriz de indicadores de uso de águas subterrâneas
 
 A tabela-mestre foi transformada em uma matriz gráfica para representar a variação dos indicadores entre as unidades hidrográficas.
 
@@ -714,7 +714,7 @@ Posição gráfica
       ≠
 Escala quantitativa comum
 
-27. Visualização estatística
+# 27. Visualização estatística
 
 Os gráficos foram produzidos utilizando:
 
@@ -734,7 +734,7 @@ estatísticas por unidade hidrográfica.
 
 As visualizações foram configuradas para utilização nos produtos cartográficos e na documentação técnica.
 
-28. Produtos cartográficos
+# 28. Produtos cartográficos
 
 O eixo hidrogeológico possui quatro produtos principais representados no layout final.
 
@@ -791,7 +791,7 @@ Subsistema R4
 
 Os mapas 3 e 4 complementam os mapas de risco e pressão, permitindo compreender a estrutura hidrogeológica que sustenta a interpretação territorial da recarga e da exploração subterrânea.
 
-29. Integração entre risco, pressão e exploração hídrica
+# 29. Integração entre risco, pressão e exploração hídrica
 
 A interpretação integrada utiliza três componentes:
 
@@ -840,7 +840,7 @@ usos agropecuários;
 
 captações subterrâneas.
 
-30. Sobreposição das unidades hidrográficas
+# 30. Sobreposição das unidades hidrográficas
 
 As unidades hidrográficas foram mantidas como referência espacial nos mapas e estatísticas.
 
@@ -850,7 +850,7 @@ No mapa de risco, permitem observar a distribuição das classes de risco dentro
 
 Na análise de outorgas, constituem a unidade de agregação dos indicadores.
 
-31. Procedimentos vetoriais utilizados no QGIS
+# 31. Procedimentos vetoriais utilizados no QGIS
 
 Recortar — Clip
 
@@ -880,7 +880,7 @@ Calcular geometria
 
 Utilizado para calcular áreas em unidades métricas e posterior conversão para hectares.
 
-32. Procedimentos raster utilizados no QGIS
+# 32. Procedimentos raster utilizados no QGIS
 
 Recortar Raster pela Camada Máscara
 
@@ -908,7 +908,7 @@ cruzar áreas prioritárias e uso da terra;
 
 gerar o raster final de pressão antrópica.
 
-33. Fluxo técnico do projeto
+# 33. Fluxo técnico do projeto
     
 ```text
 ┌───────────────────────────────────────────────┐
@@ -960,7 +960,7 @@ gerar o raster final de pressão antrópica.
              Mapas + tabelas + gráficos
 ```
 
-34. Interpretação aplicada à Geografia Agrária
+# 34. Interpretação aplicada à Geografia Agrária
 
 A análise hidrogeológica é utilizada não apenas como caracterização físico-natural, mas como instrumento para compreender as relações territoriais que envolvem a água subterrânea.
 
@@ -982,7 +982,7 @@ Estrutura territorial
 
 Sob a perspectiva da Geografia Agrária, a água é compreendida como elemento material da reprodução das atividades produtivas e como recurso cuja disponibilidade e apropriação são espacialmente diferenciadas.
 
-35. Considerações metodológicas
+# 35. Considerações metodológicas
 
 O mapa de Risco de Perda de Recarga é uma camada de referência baseada na metodologia do ZEE-DF. O projeto não deve ser apresentado como uma reconstrução integral desse modelo.
 
@@ -994,7 +994,7 @@ Da mesma forma, os dados de outorga representam registros administrativos do dir
 
 O cruzamento espacial entre outorgas e áreas de risco ou de recarga indica coincidência territorial, não causalidade.
 
-36. Limitações
+# 36. Limitações
 
 Entre as principais limitações metodológicas estão:
 
@@ -1043,18 +1043,6 @@ Coleção 10 (2024). Dados de uso e cobertura da terra utilizados na análise de
 ADASA — Outorgas
 
 Base de pontos de outorga utilizada para caracterização da exploração de águas subterrâneas na área de estudo.
-
-38. Autor
-
-Matheus Santos de Oliveira
-
-Graduação em Geografia
-Projeto de Estágio Supervisionado em Geografia
-Distrito Federal — Brasil
-
-39. Licença e uso
-
-Este repositório possui finalidade de documentação, apresentação e portfólio do projeto.
 
 Os dados de terceiros permanecem sujeitos às respectivas licenças e condições de uso de seus provedores.
 
