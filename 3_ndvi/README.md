@@ -1,185 +1,208 @@
-# Importacao e Analise de Rasters NDVI no PostGIS
+NDVI e Análise Meteorológica Sazonal
 
-Documentacao do fluxo de ingestao, organizacao e analise dos produtos raster de NDVI gerados no Google Earth Engine e armazenados no PostgreSQL/PostGIS.
+Documentação do fluxo metodológico utilizado para a análise do vigor vegetativo e das condições meteorológicas sazonais na área de estudo da Bacia Hidrográfica do Rio São Bartolomeu, Distrito Federal.
 
-O processo integra:
+A etapa integra Sensoriamento Remoto, Sistemas de Informação Geográfica, banco de dados espacial e análise estatística para relacionar a dinâmica temporal da vegetação às condições de precipitação e déficit hídrico, considerando também a estrutura fundiária dos imóveis rurais.
 
-- Google Earth Engine;
-- imagens Sentinel-2;
-- produtos raster de NDVI;
-- PostgreSQL/PostGIS;
-- Malha do CAR (Cadastro Ambiental Rural) dos imoveis rurais;
-- consultas SQL;
-- Python/JupyterLab para analise e visualizacao.
+1. Identificação do projeto
 
----
+Este diretório reúne a documentação dos procedimentos empregados na geração, armazenamento e análise dos produtos de NDVI e dos dados meteorológicos sazonais.
 
-## 1. Objetivo
+O eixo foi estruturado para integrar:
 
-Este diretorio documenta o processo de importacao e processamento dos produtos raster de NDVI no PostgreSQL/PostGIS.
+imagens Sentinel-2;
 
-Os produtos sao utilizados em duas escalas temporais:
+cálculo do NDVI;
 
-1. medias sazonais e historicas de NDVI;
-2. rasters mensais para analise da variacao sazonal.
+séries mensais;
 
-A estrutura permite armazenar os produtos raster no PostGIS, realizar operacoes espaciais com os imoveis rurais e produzir estatisticas para posterior analise no Python.
+médias sazonais e históricas;
 
----
+dados de precipitação do CHIRPS;
 
-## 2. Fluxo geral
+dados de déficit hídrico do TerraClimate;
 
-O fluxo de processamento adotado no projeto e:
+imóveis rurais e classes fundiárias;
 
-```text
-Sentinel-2
-    |
-    v
-Google Earth Engine
-    |
-    +-----------------------------+
-    |                             |
-    v                             v
-Medias sazonais/historicas    Rasters mensais
-    |                             |
-    v                             v
-GeoTIFF                       GeoTIFF
-    |                             |
-    v                             v
-PostGIS                       PostGIS
-    |                             |
-    v                             v
-ndvi.ndvi_medias_aoi         ndvi.ndvi_mensal_aoi
-                                  |
-                                  v
-                            sicar.car_aoi
-                                  |
-                                  v
-                       ndvi.ndvi_imoveis_mensal_aoi
-                                  |
-                                  v
-                       ndvi.ndvi_classe_estat_aoi
-                                  |
-                                  v
-                            Python/JupyterLab
-                                  |
-                     +------------+-------------+
-                     |                          |
-                     v                          v
-              Curva sazonal mensal      Curva historica
-                                        Seca -> Chuvosa
-```
+PostgreSQL/PostGIS;
 
----
+SQL espacial;
 
-## 3. Sistema de referencia espacial
+Python/JupyterLab;
 
-Os produtos raster utilizados no projeto estao em:
+produtos cartográficos e gráficos estatísticos.
 
-```text
+A análise não trata o NDVI como medida direta de produtividade agrícola. O índice é utilizado como indicador espectral do vigor e da condição da cobertura vegetal, cuja variação pode ser interpretada em conjunto com a sazonalidade climática e com as formas de uso e apropriação da terra.
+
+2. Objetivo
+
+Caracterizar a variação espacial e temporal do vigor vegetativo na área de estudo, comparando períodos sazonais e históricos e relacionando o comportamento do NDVI às condições de precipitação e déficit hídrico.
+
+Objetivos específicos
+
+gerar produtos de NDVI a partir de imagens Sentinel-2;
+
+produzir médias sazonais e históricas;
+
+organizar uma série mensal de NDVI;
+
+comparar estação seca e estação chuvosa;
+
+calcular precipitação acumulada sazonal;
+
+calcular déficit hídrico acumulado sazonal;
+
+relacionar a dinâmica do NDVI às condições meteorológicas;
+
+extrair estatísticas de NDVI por imóvel rural;
+
+agregar os resultados por classe fundiária;
+
+produzir curvas de vigor vegetativo;
+
+integrar os resultados à interpretação da organização agrária do território.
+
+3. Área de estudo
+
+O recorte espacial corresponde à área de estudo definida para o projeto na Bacia Hidrográfica do Rio São Bartolomeu, no Distrito Federal.
+
+A análise considera especialmente as unidades hidrográficas:
+
+Alto Rio São Bartolomeu;
+
+Médio Rio São Bartolomeu;
+
+Ribeirão Sobradinho.
+
+O recorte territorial é aplicado tanto aos produtos de sensoriamento remoto quanto às camadas utilizadas para a análise dos imóveis rurais.
+
+4. Abordagem metodológica
+
+O fluxo de trabalho foi estruturado em duas frentes complementares:
+
+análise da vegetação, por meio do NDVI derivado de imagens Sentinel-2;
+
+análise meteorológica sazonal, por meio de precipitação acumulada e déficit hídrico acumulado.
+
+As duas frentes são posteriormente integradas para interpretar a resposta da cobertura vegetal às condições ambientais sazonais.
+
+                         DADOS DE ENTRADA
+                               │
+             ┌─────────────────┴─────────────────┐
+             │                                   │
+             ▼                                   ▼
+        Sentinel-2                        Dados meteorológicos
+             │                                   │
+             ▼                              ┌────┴────┐
+      Google Earth Engine                   │         │
+             │                              ▼         ▼
+             ▼                           CHIRPS   TerraClimate
+          NDVI                              │         │
+             │                              ▼         ▼
+      ┌──────┴────────┐               Precipitação  Déficit
+      │               │                 acumulada   hídrico
+      ▼               ▼                      │         │
+   Produtos       Rasters mensais             └────┬────┘
+   sazonais            │                            │
+      │                │                            │
+      └────────┬───────┴────────────────────────────┘
+               ▼
+        PostgreSQL/PostGIS
+               │
+               ├── Estatísticas espaciais
+               ├── Imóveis rurais
+               └── Classes fundiárias
+               │
+               ▼
+          Python/JupyterLab
+               │
+               ▼
+     Análise e visualização
+               │
+       ┌───────┴────────┐
+       ▼                ▼
+ Curva sazonal     Curva histórica
+    de NDVI           de NDVI
+
+5. Sistema de referência espacial
+
+Os produtos raster utilizados no banco espacial estão organizados em:
+
 EPSG:31983
-```
-
-Sistema:
-
-```text
 SIRGAS 2000 / UTM zona 23S
-```
 
-O SRID e informado ao `raster2pgsql` por meio do parametro:
+O SRID é informado ao raster2pgsql por meio do parâmetro:
 
-```text
 -s 31983
-```
 
-Esse parametro informa o sistema de referencia espacial do raster durante a importacao. Ele nao realiza uma reprojecao.
+Esse parâmetro informa o sistema de referência espacial associado ao raster durante a importação; ele não realiza a reprojeção do arquivo.
 
----
+A adoção de um sistema projetado permite realizar operações espaciais e cálculos de área em unidades métricas.
 
-## 4. Estrutura do banco
+6. Geração do NDVI
 
-Os produtos NDVI sao organizados no schema:
+O NDVI foi calculado a partir de imagens Sentinel-2 processadas no Google Earth Engine.
 
-```text
-ndvi
-```
+A formulação utilizada é:
 
-As principais tabelas raster sao:
+NDVI = (NIR - RED) / (NIR + RED)
 
-```text
-ndvi.ndvi_medias_aoi
-ndvi.ndvi_mensal_aoi
-```
+O índice permite representar a resposta espectral da vegetação a partir da relação entre a reflectância no infravermelho próximo e no vermelho.
 
-As tabelas analiticas derivadas sao:
+No contexto deste projeto, os valores são utilizados para caracterizar o vigor relativo da cobertura vegetal e sua variação ao longo dos períodos analisados.
 
-```text
-ndvi.ndvi_imoveis_mensal_aoi
-ndvi.ndvi_classe_estat_aoi
-ndvi.ndvi_historico_corrigido
-ndvi.ndvi_historico_classe
-```
+O NDVI deve ser interpretado em conjunto com o tipo de cobertura, a sazonalidade, as condições meteorológicas e a organização territorial, pois diferentes usos da terra podem apresentar respostas espectrais distintas.
 
-A camada espacial utilizada para o cruzamento com os rasters e:
+7. Produtos temporais de NDVI
 
-```text
-sicar.car_aoi
-```
+Foram produzidos quatro conjuntos de médias:
 
-Estrutura logica:
+Produto
 
-```text
-<PROJETO_POSTGRES>
-|
-+-- ndvi
-|   |
-|   +-- ndvi_medias_aoi
-|   |
-|   +-- ndvi_mensal_aoi
-|   |
-|   +-- ndvi_imoveis_mensal_aoi
-|   |
-|   +-- ndvi_classe_estat_aoi
-|   |
-|   +-- ndvi_historico_corrigido
-|   |
-|   +-- ndvi_historico_classe
-|
-+-- sicar
-    |
-    +-- car_aoi
-```
+Período
 
----
+Tipo
 
-## 5. Produtos raster
+NDVI_Medio_Estacao_Seca_2025.tif
 
-### 5.1 Medias sazonais e historicas
+Junho a Setembro de 2025
 
-Foram utilizados quatro produtos raster:
+Média sazonal
 
-| Produto | Periodo | Tipo |
-|---|---|---|
-| `NDVI_Medio_Estacao_Seca_2025.tif` | Junho a Setembro de 2025 | Media sazonal |
-| `NDVI_Medio_Estacao_Chuvosa_2025_2026.tif` | Novembro de 2025 a Marco de 2026 | Media sazonal |
-| `NDVI_Medio_Historico_Estacao_Seca_2017_2024.tif` | Junho a Setembro, 2017-2024 | Media historica |
-| `NDVI_Medio_Historico_Estacao_Chuvosa_2017_2024.tif` | Novembro a Marco, 2017-2024 | Media historica |
+NDVI_Medio_Estacao_Chuvosa_2025_2026.tif
 
-Esses produtos sao armazenados na tabela:
+Novembro de 2025 a Março de 2026
 
-```text
-ndvi.ndvi_medias_aoi
-```
+Média sazonal
 
----
+NDVI_Medio_Historico_Estacao_Seca_2017_2024.tif
 
-### 5.2 Rasters mensais
+Junho a Setembro, 2017–2024
 
-Foram utilizados oito rasters mensais de NDVI para representar a variacao entre a estacao seca e a estacao chuvosa.
+Média histórica
 
-Os arquivos sao:
+NDVI_Medio_Historico_Estacao_Chuvosa_2017_2024.tif
 
-```text
+Novembro a Março, 2017–2024
+
+Média histórica
+
+Também foram utilizados rasters mensais para representar a variação sazonal.
+
+Foram documentados:
+
+114 imagens para o NDVI médio sazonal da estação seca;
+
+17 imagens para o NDVI médio sazonal da estação chuvosa;
+
+552 imagens para o NDVI histórico médio da estação seca;
+
+140 imagens para o NDVI histórico médio da estação chuvosa.
+
+8. Rasters mensais
+
+Foram utilizados oito rasters mensais:
+
 NDVI_Junho_2025.tif
 NDVI_Julho_2025.tif
 NDVI_Agosto_2025.tif
@@ -188,733 +211,190 @@ NDVI_Novembro_2025.tif
 NDVI_Dezembro_2025.tif
 NDVI_Fevereiro_2026.tif
 NDVI_Marco_2026.tif
-```
 
-Os produtos sao armazenados em:
+Os produtos são armazenados em:
 
-```text
 ndvi.ndvi_mensal_aoi
-```
 
-Os meses de outubro e janeiro nao possuem raster neste conjunto de dados e, portanto, nao fazem parte da serie analisada.
+Os meses de outubro e janeiro não possuem raster neste conjunto de dados.
 
----
+A sequência temporal utilizada é:
 
-## 6. Organizacao temporal
+Junho → Julho → Agosto → Setembro
+                     ↓
+                  Novembro
+                     ↓
+          Dezembro → Fevereiro → Março
 
-A serie mensal utilizada na analise segue a ordem cronologica:
+9. Análise meteorológica sazonal
 
-```text
-Junho
-   |
-Julho
-   |
-Agosto
-   |
-Setembro
-   |
-Novembro
-   |
-Dezembro
-   |
-Fevereiro
-   |
-Marco
-```
+A análise meteorológica foi incorporada ao eixo de NDVI porque a dinâmica da vegetação no Cerrado está fortemente condicionada pela sazonalidade da disponibilidade hídrica.
 
-A classificacao sazonal utilizada e:
+Foram utilizadas duas variáveis:
 
-```text
-Estacao Seca
-Junho
-Julho
-Agosto
-Setembro
-```
+Precipitação acumulada
+        +
+Déficit hídrico acumulado
 
-```text
-Estacao Chuvosa
-Novembro
-Dezembro
-Fevereiro
-Marco
-```
+Essas variáveis não substituem o NDVI. Funcionam como variáveis ambientais auxiliares para interpretar as condições sob as quais ocorreram as alterações do vigor vegetativo.
 
-Outubro e janeiro nao possuem raster no conjunto utilizado.
+10. Precipitação — CHIRPS
 
----
+Foi utilizado o dataset:
 
-## 7. Ingestao dos rasters
+UCSB-CHC/CHIRPS/V3/DAILY_SAT
 
-### 7.1 Ferramentas
+com a banda:
 
-O processo utiliza:
+precipitation
 
-- PostgreSQL;
-- PostGIS;
-- `raster2pgsql`;
-- `psql`;
-- Prompt de Comando do Windows (CMD).
+A coleção possui dados diários de precipitação.
 
-O `raster2pgsql` converte os arquivos raster em comandos SQL compativeis com o PostGIS.
+A precipitação acumulada foi obtida por soma temporal:
 
-O `psql` executa os comandos no banco de dados PostgreSQL.
+.sum()
 
----
+Quando aplicada a uma janela temporal definida, essa operação representa a soma da precipitação diária no período selecionado.
 
-### 7.2 Ingestao das medias NDVI
+Dados computados
 
-Os produtos sazonais e historicos sao importados em lote utilizando o curinga:
+Foram documentados:
 
-```text
-*.tif
-```
+151 imagens CHIRPS para a estação chuvosa;
 
-Comando generico:
+122 imagens CHIRPS para a estação seca.
 
-```bat
-raster2pgsql -s 31983 -I -C "<CAMINHO_DOS_RASTERS>\*.tif" ndvi.ndvi_medias_aoi | psql -U <USUARIO_POSTGRES> -d <BANCO_DE_DADOS>
-```
+Os produtos representam a precipitação acumulada utilizada na caracterização sazonal da área de estudo.
 
-> **Nota:** os caminhos locais, o usuario e o banco de dados devem ser adaptados ao ambiente de execucao. Nenhuma credencial deve ser armazenada no repositorio.
+11. Déficit hídrico — TerraClimate
 
----
+Foi utilizado o dataset:
 
-### 7.3 Ingestao dos rasters mensais
+IDAHO_EPSCOR/TERRACLIMATE
 
-Os rasters mensais sao importados para:
+com a banda:
 
-```text
-ndvi.ndvi_mensal_aoi
-```
+def
 
-Comando generico:
+A variável def foi utilizada para caracterizar o déficit hídrico climático.
 
-```bat
-raster2pgsql -s 31983 -I -C "<CAMINHO_DOS_RASTERS_MENSAIS>\*.tif" ndvi.ndvi_mensal_aoi | psql -U <USUARIO_POSTGRES> -d <BANCO_DE_DADOS>
-```
+O processamento foi realizado sobre os dados mensais, com acumulação para os períodos sazonais analisados.
 
-O comando importa os arquivos GeoTIFF do diretorio para uma mesma tabela raster.
+A escala indicada para a variável é:
 
----
-
-## 8. Parametros do raster2pgsql
-
-| Parametro | Funcao |
-|---|---|
-| `raster2pgsql` | Converte rasters em comandos SQL |
-| `-s 31983` | Define o SRID dos rasters |
-| `-I` | Cria indice espacial |
-| `-C` | Aplica constraints relacionadas ao raster |
-| `*.tif` | Seleciona os arquivos GeoTIFF |
-| `ndvi.ndvi_medias_aoi` | Define a tabela de destino das medias |
-| `ndvi.ndvi_mensal_aoi` | Define a tabela de destino dos produtos mensais |
-| `\|` | Encaminha a saida para o `psql` |
-| `psql` | Executa os comandos no PostgreSQL |
-| `-U` | Define o usuario PostgreSQL |
-| `-d` | Define o banco de dados |
-
----
-
-## 9. Validacao da ingestao
-
-Apos a importacao, os rasters devem ser validados antes das analises.
-
-### 9.1 Quantidade de rasters mensais
-
-```sql
-SELECT COUNT(*)
-FROM ndvi.ndvi_mensal_aoi;
-```
-
-Resultado esperado:
-
-```text
-8
-```
-
----
-
-### 9.2 Verificar os RID
-
-```sql
-SELECT
-    rid
-FROM ndvi.ndvi_mensal_aoi
-ORDER BY rid;
-```
-
-Resultado esperado:
-
-```text
-1
-2
-3
-4
-5
-6
-7
-8
-```
-
----
-
-### 9.3 Verificar o SRID
-
-```sql
-SELECT DISTINCT
-    ST_SRID(rast)
-FROM ndvi.ndvi_mensal_aoi;
-```
-
-Resultado esperado:
-
-```text
-31983
-```
-
----
-
-### 9.4 Verificar dimensoes e resolucao
-
-```sql
-SELECT
-    rid,
-    ST_Width(rast) AS largura,
-    ST_Height(rast) AS altura,
-    ST_ScaleX(rast) AS resolucao_x,
-    ST_ScaleY(rast) AS resolucao_y
-FROM ndvi.ndvi_mensal_aoi
-ORDER BY rid;
-```
-
----
-
-### 9.5 Verificar estatisticas raster
-
-```sql
-SELECT
-    rid,
-    ST_SummaryStats(rast, 1, true)
-FROM ndvi.ndvi_mensal_aoi
-ORDER BY rid;
-```
-
-A consulta permite verificar:
-
-- quantidade de pixels validos;
-- valor minimo;
-- valor maximo;
-- media;
-- desvio padrao.
-
-Os resultados devem ser avaliados antes da utilizacao dos rasters nas analises.
-
----
-
-## 10. Analise espacial dos rasters mensais
-
-A analise mensal utiliza os imoveis rurais presentes em:
-
-```text
-sicar.car_aoi
-```
-
-Essa tabela representa o recorte espacial dos imoveis do CAR dentro da area de estudo.
-
-O atributo:
-
-```text
-classe_fundiaria
-```
-
-e utilizado posteriormente para agrupar os resultados.
-
-O processamento e realizado em duas etapas:
-
-```text
-Raster mensal
-      |
-      v
-Imovel rural
-      |
-      v
-NDVI medio por imovel
-      |
-      v
-Classe fundiaria
-      |
-      v
-NDVI medio por classe
-```
-
----
-
-## 11. NDVI medio por imovel e por mes
-
-A primeira etapa calcula o NDVI medio dentro de cada imovel para cada raster mensal.
-
-O resultado e armazenado em:
-
-```text
-ndvi.ndvi_imoveis_mensal_aoi
-```
-
-Consulta:
-
-```sql
-CREATE TABLE ndvi.ndvi_imoveis_mensal_aoi AS
-
-SELECT
-    car.id,
-    car.classe_fundiaria,
-    raster.rid,
-    meses.mes,
-    meses.mes_numero,
-    meses.ano,
-    meses.estacao,
-    meses.ordem_temporal,
-
-    (
-        ST_SummaryStats(
-            ST_Clip(
-                raster.rast,
-                1,
-                car.geom,
-                'NaN'::double precision,
-                true
-            ),
-            1,
-            true
-        )
-    ).mean AS ndvi_medio
-
-FROM sicar.car_aoi AS car
-
-INNER JOIN ndvi.ndvi_mensal_aoi AS raster
-    ON ST_Intersects(car.geom, raster.rast)
-
-INNER JOIN ndvi.ndvi_meses_aoi AS meses
-    ON raster.rid = meses.rid
-
-WHERE car.geom IS NOT NULL
-
-ORDER BY
-    car.classe_fundiaria,
-    car.id,
-    meses.ordem_temporal;
-```
-
-O resultado possui uma observacao para cada combinacao valida:
-
-```text
-imovel x mes
-```
-
-Estrutura conceitual:
-
-| id | classe_fundiaria | rid | mes | estacao | ndvi_medio |
-|---|---|---:|---|---|---:|
-| 1 | Classe A | 5 | Junho | Seca | 0.32 |
-| 1 | Classe A | 4 | Julho | Seca | 0.29 |
-| 1 | Classe A | 1 | Agosto | Seca | 0.27 |
-
----
-
-## 12. NDVI medio por classe fundiaria e por mes
-
-A segunda etapa agrega os valores dos imoveis por classe fundiaria e periodo.
-
-O resultado e armazenado em:
-
-```text
-ndvi.ndvi_classe_estat_aoi
-```
-
-Consulta:
-
-```sql
-CREATE TABLE ndvi.ndvi_classe_estat_aoi AS
-
-SELECT
-    classe_fundiaria,
-    rid,
-    mes,
-    mes_numero,
-    ano,
-    estacao,
-    ordem_temporal,
-
-    ROUND(
-        AVG(ndvi_medio)::numeric,
-        4
-    ) AS ndvi_medio_classe,
-
-    ROUND(
-        STDDEV(ndvi_medio)::numeric,
-        4
-    ) AS desvio_padrao_classe,
-
-    COUNT(*) AS quantidade_imoveis
-
-FROM ndvi.ndvi_imoveis_mensal_aoi
-
-GROUP BY
-    classe_fundiaria,
-    rid,
-    mes,
-    mes_numero,
-    ano,
-    estacao,
-    ordem_temporal
-
-ORDER BY
-    classe_fundiaria,
-    ordem_temporal;
-```
-
----
-
-## 13. Interpretacao estatistica
-
-A media de NDVI da classe e calculada a partir dos valores medios obtidos individualmente para os imoveis.
+0,1
 
 Assim:
 
-```text
-Pixels do raster
-      |
-      v
-NDVI medio do imovel
-      |
-      v
-Imoveis pertencentes a classe
-      |
-      v
-Media dos imoveis
-      |
-      v
-NDVI medio da classe
-```
+valor físico = valor armazenado × 0,1
 
-Essa abordagem faz com que cada imovel contribua com uma observacao para a media da classe, evitando que propriedades maiores tenham peso adicional apenas por possuirem maior quantidade de pixels.
+Foram documentadas:
 
-O campo:
+2 imagens TerraClimate para a estação chuvosa;
 
-```text
-desvio_padrao_classe
-```
+4 imagens TerraClimate para a estação seca.
 
-representa a variabilidade dos valores medios de NDVI entre os imoveis da mesma classe.
+12. Integração entre NDVI e meteorologia
 
-O campo:
+A integração entre NDVI, precipitação e déficit hídrico segue a lógica:
 
-```text
-quantidade_imoveis
-```
+              SAZONALIDADE
+                   │
+        ┌──────────┴──────────┐
+        ▼                     ▼
+  Disponibilidade          Déficit
+      hídrica               hídrico
+        │                     │
+        └──────────┬──────────┘
+                   ▼
+             Condição hídrica
+                   │
+                   ▼
+              Cobertura vegetal
+                   │
+                   ▼
+                  NDVI
 
-registra o numero de imoveis utilizados no calculo de cada combinacao classe x periodo.
+A finalidade é verificar como os padrões de vigor vegetativo se comportam sob diferentes condições de disponibilidade hídrica.
 
----
+Na interpretação geográfica, a resposta do NDVI deve ser relacionada também ao uso e cobertura da terra. Assim, uma redução do NDVI não é automaticamente atribuída ao déficit hídrico, pois pode decorrer de mudanças de cobertura, manejo agrícola, colheita, solo exposto ou outros processos territoriais.
 
-## 14. Verificacao das estatisticas mensais
+13. Banco de dados PostgreSQL/PostGIS
 
-Consultar os resultados:
+Os produtos NDVI são organizados no schema:
 
-```sql
-SELECT
-    classe_fundiaria,
-    mes,
-    ano,
-    estacao,
-    ndvi_medio_classe,
-    desvio_padrao_classe,
-    quantidade_imoveis
-FROM ndvi.ndvi_classe_estat_aoi
-ORDER BY
-    classe_fundiaria,
-    ordem_temporal;
-```
+ndvi
 
-Verificar a quantidade de registros:
+Principais tabelas:
 
-```sql
-SELECT COUNT(*)
-FROM ndvi.ndvi_classe_estat_aoi;
-```
-
-Verificar os periodos:
-
-```sql
-SELECT DISTINCT
-    mes,
-    ano,
-    estacao,
-    ordem_temporal
-FROM ndvi.ndvi_classe_estat_aoi
-ORDER BY
-    ordem_temporal;
-```
-
----
-
-## 15. Curva historica sazonal por classe fundiaria
-
-### 15.1 Objetivo
-
-A curva historica sazonal tem como objetivo comparar o comportamento medio do NDVI entre a estacao seca e a estacao chuvosa para cada classe fundiaria.
-
-Diferentemente da curva mensal, essa analise utiliza apenas dois produtos raster historicos:
-
-```text
-NDVI_Medio_Historico_Estacao_Seca_2017_2024.tif
-
-NDVI_Medio_Historico_Estacao_Chuvosa_2017_2024.tif
-```
-
-O periodo historico analisado e:
-
-```text
-2017-2024
-```
-
----
-
-### 15.2 Periodos sazonais
-
-A composicao historica da estacao seca representa:
-
-```text
-Junho
-Julho
-Agosto
-Setembro
-```
-
-A composicao historica da estacao chuvosa representa:
-
-```text
-Novembro
-Dezembro
-Janeiro
-Fevereiro
-Marco
-```
-
-Os dois produtos representam, portanto, as condicoes medias historicas de cada estacao.
-
----
-
-### 15.3 Correcao dos valores NaN
-
-Durante a validacao dos produtos historicos foram identificados valores `NaN`.
-
-Esses valores foram convertidos para:
-
-```text
--9999
-```
-
-e definidos como NoData da banda raster.
-
-Para isso foi criada a tabela:
-
-```text
-ndvi.ndvi_historico_corrigido
-```
-
-Os dois produtos historicos corrigidos apresentaram estatisticas numericas validas.
-
-Valores gerais obtidos:
-
-| Estacao | NDVI medio | NDVI minimo | NDVI maximo |
-|---|---:|---:|---:|
-| Chuvosa | 0.5456 | -0.4093 | 0.8761 |
-| Seca | 0.4185 | -0.5891 | 0.9032 |
-
-Esses valores correspondem aos produtos raster como um todo e nao representam a estatistica por classe fundiaria.
-
----
-
-### 15.4 Extracao por imovel
-
-Os rasters historicos corrigidos sao cruzados espacialmente com:
-
-```text
-sicar.car_aoi
-```
-
-Para cada imovel e estacao e calculado:
-
-```text
-NDVI medio do imovel
-```
-
-Posteriormente, os valores dos imoveis sao agregados pela classe fundiaria.
-
-A hierarquia estatistica e:
-
-```text
-Pixels
-   |
-   v
-NDVI medio do imovel
-   |
-   v
-Classe fundiaria
-   |
-   v
-Media dos imoveis da classe
-```
-
-Essa abordagem garante que cada imovel contribua como uma observacao para a estatistica da classe.
-
----
-
-### 15.5 Tabela estatistica historica
-
-O resultado final e armazenado em:
-
-```text
-ndvi.ndvi_historico_classe
-```
-
-A tabela possui os campos:
-
-```text
-classe_fundiaria
-estacao
-ndvi_medio_classe
-quantidade_imoveis
-```
-
-Cada classe fundiaria possui dois valores:
-
-```text
-Seca
-Chuvosa
-```
-
-Estrutura conceitual:
-
-| classe_fundiaria | estacao | ndvi_medio_classe | quantidade_imoveis |
-|---|---|---:|---:|
-| Classe A | Seca | 0.xxx | xx |
-| Classe A | Chuvosa | 0.xxx | xx |
-| Classe B | Seca | 0.xxx | xx |
-| Classe B | Chuvosa | 0.xxx | xx |
-
----
-
-### 15.6 Resultados obtidos
-
-Os valores medios historicos obtidos por classe foram:
-
-| Classe fundiaria | Seca | Chuvosa | Delta NDVI |
-|---|---:|---:|---:|
-| Latifundio | 0.4441 | 0.5712 | +0.1271 |
-| Media Propriedade | 0.4310 | 0.5673 | +0.1363 |
-| Minifundio | 0.3859 | 0.5190 | +0.1331 |
-| Pequena Propriedade | 0.4171 | 0.5626 | +0.1455 |
-
-A variacao sazonal e calculada por:
-
-```text
-Delta NDVI = NDVI Chuvosa - NDVI Seca
-```
-
-Todos os grupos apresentaram aumento do NDVI entre a estacao seca e a estacao chuvosa.
-
----
-
-### 15.7 Quantidade de imoveis
-
-A agregacao historica utilizou:
-
-```text
-Latifundio             52 imoveis
-
-Media Propriedade      82 imoveis
-
-Minifundio            293 imoveis
-
-Pequena Propriedade   137 imoveis
-```
-
-A comparacao entre as duas estacoes foi realizada sobre o mesmo conjunto de imoveis de cada classe.
-
----
-
-### 15.8 Estrutura do grafico
-
-O grafico historico apresenta:
-
-```text
-Eixo X -> Estacao
-
-Eixo Y -> NDVI medio
-
-Series -> Classe fundiaria
-```
-
-A ordem do eixo X e:
-
-```text
-Seca -> Chuvosa
-```
-
-Cada classe possui dois marcadores:
-
-```text
-Seca      ●────────●      Chuvosa
-```
-
-A linha conecta os dois valores e representa a variacao sazonal historica entre as duas estacoes.
-
-A linha nao representa valores mensais interpolados.
-
----
-
-### 15.9 Interpretacao
-
-A curva historica sazonal permite comparar:
-
-- o nivel medio de NDVI entre as classes;
-- a diferenca entre seca e chuvosa;
-- a amplitude da variacao sazonal;
-- o comportamento relativo da cobertura vegetal entre as classes fundiarias.
-
-O aumento do NDVI na estacao chuvosa e compativel com maior disponibilidade hidrica e maior atividade da vegetacao.
-
-Entretanto, o NDVI nao deve ser interpretado diretamente como indicador de produtividade agricola.
-
-O indice representa a resposta espectral da cobertura vegetal e pode refletir:
-
-- culturas agricolas;
-- pastagens;
-- vegetacao nativa;
-- areas em regeneracao;
-- outros usos e coberturas da terra.
-
-A interpretacao agricola deve, portanto, ser realizada em conjunto com as demais informacoes territoriais e ambientais da area de estudo.
-
----
-
-## 16. Preparacao para Python
-
-### 16.1 Analise mensal
-
-A tabela:
-
-```text
+ndvi.ndvi_medias_aoi
+ndvi.ndvi_mensal_aoi
+ndvi.ndvi_imoveis_mensal_aoi
 ndvi.ndvi_classe_estat_aoi
-```
+ndvi.ndvi_historico_corrigido
+ndvi.ndvi_historico_classe
 
-constitui a fonte de dados para a analise mensal no Python/JupyterLab.
+A camada utilizada para o cruzamento com os rasters é:
 
-Os principais campos sao:
+sicar.car_aoi
 
-```text
+Estrutura lógica:
+
+PROJETO_POSTGRES
+│
+├── ndvi
+│   ├── ndvi_medias_aoi
+│   ├── ndvi_mensal_aoi
+│   ├── ndvi_imoveis_mensal_aoi
+│   ├── ndvi_classe_estat_aoi
+│   ├── ndvi_historico_corrigido
+│   └── ndvi_historico_classe
+│
+└── sicar
+    └── car_aoi
+
+14. Integração com imóveis rurais
+
+Os rasters mensais são cruzados espacialmente com os imóveis rurais da base utilizada no projeto.
+
+O fluxo é:
+
+Raster NDVI mensal
+        │
+        ▼
+PostGIS
+        │
+        ▼
+Imóveis rurais
+        │
+        ▼
+Extração do NDVI médio
+        │
+        ▼
+NDVI médio por imóvel e mês
+        │
+        ▼
+Agregação por classe fundiária
+
+Essa etapa permite observar diferenças no comportamento médio do NDVI entre os diferentes estratos fundiários.
+
+15. Classes fundiárias
+
+A análise estatística utiliza as seguintes classes:
+
+Latifúndio
+Minifúndio
+Média Propriedade
+Pequena Propriedade
+
+A agregação por classe fundiária permite relacionar a dinâmica espectral da cobertura vegetal à estrutura espacial dos imóveis rurais.
+
+Essa relação não implica que a dimensão fundiária seja, isoladamente, responsável pelo comportamento do NDVI. A interpretação deve considerar uso da terra, cobertura vegetal, manejo, condições ambientais e demais características territoriais.
+
+16. Estatísticas por classe fundiária
+
+A tabela analítica contém campos como:
+
 classe_fundiaria
 mes
 mes_numero
@@ -924,261 +404,283 @@ ordem_temporal
 ndvi_medio_classe
 desvio_padrao_classe
 quantidade_imoveis
-```
 
-Para a construcao da curva mensal:
+Para a construção da curva mensal:
 
-```text
-Eixo X -> ordem_temporal
+Eixo X → ordem_temporal
+Eixo Y → ndvi_medio_classe
+Series → classe_fundiaria
 
-Eixo Y -> ndvi_medio_classe
+O campo desvio_padrao_classe pode ser utilizado para representar a variabilidade do NDVI entre os imóveis pertencentes a cada classe.
 
-Series -> classe_fundiaria
-```
-
-O campo `desvio_padrao_classe` pode ser utilizado para representar a variabilidade entre os imoveis.
-
----
-
-### 16.2 Analise historica
+17. Análise histórica
 
 A tabela:
 
-```text
 ndvi.ndvi_historico_classe
-```
 
-constitui a fonte para a curva historica sazonal.
+constitui a fonte para a curva histórica sazonal.
 
-Os campos utilizados sao:
+Campos principais:
 
-```text
 classe_fundiaria
 estacao
 ndvi_medio_classe
 quantidade_imoveis
-```
 
-Para a construcao do grafico:
+Para o gráfico:
 
-```text
-Eixo X -> estacao
+Eixo X → estação
+Eixo Y → ndvi_medio_classe
+Series → classe_fundiaria
 
-Eixo Y -> ndvi_medio_classe
+A ordem sazonal é:
 
-Series -> classe_fundiaria
-```
+Seca → Chuvosa
 
-A ordem das estacoes deve ser:
+A curva histórica não representa uma série mensal completa. Ela sintetiza a diferença entre as médias históricas dos dois períodos sazonais.
 
-```text
-Seca -> Chuvosa
-```
+18. Perfil temporal e curva de vigor vegetativo
 
----
+A análise mensal representa a variação do NDVI ao longo dos oito períodos disponíveis.
 
-## 17. Perfil temporal de NDVI
+O produto é denominado:
 
-A analise mensal representa a variacao do NDVI ao longo dos periodos mensais disponiveis.
+Perfil temporal ou curva sazonal de NDVI por classe fundiária
 
-O produto deve ser denominado:
+A análise mensal possui oito observações temporais disponíveis.
 
-```text
-Perfil temporal ou curva sazonal de NDVI por classe fundiaria
-```
+A curva histórica sazonal possui duas observações:
 
-Essa analise utiliza os oito rasters mensais disponiveis e permite observar a variacao do NDVI ao longo do periodo analisado.
+Seca → Chuvosa
 
-A curva historica sazonal descrita na secao anterior possui finalidade diferente: representa apenas a transicao entre as medias historicas da estacao seca e da estacao chuvosa.
+A distinção é importante para evitar que a curva histórica seja interpretada como uma série temporal mensal.
 
-Portanto:
+19. Integração metodológica final
 
-```text
-Curva mensal
-8 observacoes temporais disponiveis
+O fluxo completo do eixo é:
 
-Curva historica sazonal
-2 observacoes sazonais:
-Seca -> Chuvosa
-```
-
----
-
-## 18. Reprodutibilidade
-
-A sequencia de processamento e:
-
-```text
-1. Gerar produtos NDVI no Google Earth Engine
-        |
-2. Exportar os produtos como GeoTIFF
-        |
-3. Importar os GeoTIFF para o PostGIS
-        |
-4. Validar SRID, dimensoes e estatisticas
-        |
-5. Registrar os periodos na tabela ndvi.ndvi_meses_aoi
-        |
-6. Calcular NDVI medio por imovel e mes
-        |
-7. Agregar os resultados mensais por classe fundiaria
-        |
-8. Corrigir e validar os rasters historicos
-        |
-9. Calcular NDVI medio historico por imovel
-        |
-10. Agregar os resultados historicos por classe fundiaria
-        |
-11. Validar as estatisticas
-        |
-12. Consultar os resultados no Python
-        |
-13. Gerar as curvas de NDVI
-```
-
-As consultas SQL devem ser mantidas no repositorio para permitir a reproducao do processamento.
-
----
-
-## 19. Integracao com Python
-
-O PostgreSQL/PostGIS permanece responsavel pelo:
-
-- armazenamento dos rasters;
-- armazenamento dos dados espaciais;
-- operacoes espaciais;
-- recorte dos rasters;
-- calculo das estatisticas espaciais;
-- agregacao dos resultados.
-
-O Python/JupyterLab sera utilizado para:
-
-- leitura das tabelas estatisticas;
-- organizacao dos dados;
-- visualizacao;
-- producao dos graficos.
-
-### Fluxo da analise mensal
-
-```text
-PostgreSQL/PostGIS
-        |
-        v
-ndvi.ndvi_classe_estat_aoi
-        |
-        | consulta/exportacao
-        v
-Python / JupyterLab
-        |
-        v
-Perfil temporal de NDVI
-```
-
-### Fluxo da analise historica
-
-```text
-PostgreSQL/PostGIS
-        |
-        v
-ndvi.ndvi_historico_classe
-        |
-        | consulta/exportacao
-        v
-Python / JupyterLab
-        |
-        v
-Curva historica sazonal
-Seca -> Chuvosa
-```
-
----
-
-## 20. Produtos da analise
-
-Os principais produtos desta etapa sao:
-
-### PostgreSQL/PostGIS
-
-```text
-ndvi.ndvi_medias_aoi
-
-ndvi.ndvi_mensal_aoi
-
-ndvi.ndvi_imoveis_mensal_aoi
-
-ndvi.ndvi_classe_estat_aoi
-
-ndvi.ndvi_historico_corrigido
-
-ndvi.ndvi_historico_classe
-```
-
-### Python/JupyterLab
-
-```text
-Perfil temporal mensal de NDVI
-
-Curva historica sazonal de NDVI por classe fundiaria
-```
-
----
-
-## 21. Resumo
-
-O banco de dados espacial integra os produtos de sensoriamento remoto ao conjunto de dados territoriais do projeto.
-
-A estrutura principal e:
-
-```text
-Google Earth Engine
-        |
-        v
 Sentinel-2
-        |
-        v
-NDVI
-        |
-        +--------------------------+
-        |                          |
-        v                          v
-Medias sazonais/historicas    Rasters mensais
-        |                          |
-        v                          v
-ndvi.ndvi_medias_aoi          ndvi.ndvi_mensal_aoi
-        |                          |
-        |                          v
-        |                    sicar.car_aoi
-        |                          |
-        |                          v
-        |                NDVI medio por imovel
-        |                          |
-        |                          v
-        |                NDVI medio por classe
-        |                          |
-        |                          v
-        |                ndvi.ndvi_classe_estat_aoi
-        |                          |
-        |                          v
-        |                    Python/JupyterLab
-        |                          |
-        |                          v
-        |                 Perfil temporal mensal
-        |
-        v
-ndvi.ndvi_historico_corrigido
-        |
-        v
-NDVI medio historico por classe
-        |
-        v
-ndvi.ndvi_historico_classe
-        |
-        v
-Python/JupyterLab
-        |
-        v
-Curva historica sazonal
-Seca -> Chuvosa
-```
+    │
+    ▼
+Google Earth Engine
+    │
+    ├── Cálculo do NDVI
+    │
+    └── Produtos mensais/sazonais/históricos
+                │
+                ▼
+             GeoTIFF
+                │
+                ▼
+           PostgreSQL/PostGIS
+                │
+        ┌───────┴────────┐
+        │                │
+        ▼                ▼
+ Imóveis rurais    Dados meteorológicos
+        │                │
+        │          ┌─────┴─────┐
+        │          ▼           ▼
+        │       CHIRPS    TerraClimate
+        │          │           │
+        │          ▼           ▼
+        │   Precipitação    Déficit
+        │     acumulada     hídrico
+        │          └─────┬─────┘
+        │                │
+        └───────┬────────┘
+                ▼
+        Análise integrada
+                │
+                ▼
+        Python/JupyterLab
+                │
+        ┌───────┴────────┐
+        ▼                ▼
+ Perfil temporal     Curva histórica
+    de NDVI             sazonal
 
-O fluxo estabelece a integracao entre sensoriamento remoto, banco de dados espacial, analise estatistica e visualizacao, mantendo separadas as etapas de processamento raster, consulta espacial, agregacao estatistica e producao dos resultados.
+20. Reprodutibilidade
+
+A sequência geral de processamento é:
+
+1. Selecionar imagens Sentinel-2
+2. Processar as imagens no Google Earth Engine
+3. Calcular o NDVI
+4. Gerar produtos mensais
+5. Gerar médias sazonais
+6. Gerar médias históricas
+7. Exportar os produtos como GeoTIFF
+8. Processar CHIRPS para precipitação acumulada
+9. Processar TerraClimate para déficit hídrico acumulado
+10. Importar os produtos no PostgreSQL/PostGIS
+11. Validar SRID, extensão, dimensões e estatísticas
+12. Cruzar NDVI mensal com os imóveis rurais
+13. Calcular NDVI médio por imóvel
+14. Agregar os resultados por classe fundiária
+15. Consultar os resultados no Python/JupyterLab
+16. Produzir os gráficos e produtos cartográficos
+
+As consultas SQL, scripts do GEE e notebooks utilizados no processamento devem permanecer documentados no repositório.
+
+21. Tecnologias utilizadas
+
+Geoprocessamento
+
+QGIS;
+
+GDAL;
+
+Orfeo Toolbox.
+
+Sensoriamento remoto
+
+Google Earth Engine;
+
+Sentinel-2.
+
+Dados meteorológicos
+
+CHIRPS;
+
+TerraClimate.
+
+Banco de dados
+
+PostgreSQL;
+
+PostGIS;
+
+SQL;
+
+raster2pgsql;
+
+psql.
+
+Programação e análise
+
+Python;
+
+Pandas;
+
+GeoPandas;
+
+Rasterio;
+
+Matplotlib;
+
+JupyterLab.
+
+22. Produtos da análise
+
+Produtos raster
+
+NDVI_Medio_Estacao_Seca_2025.tif
+NDVI_Medio_Estacao_Chuvosa_2025_2026.tif
+NDVI_Medio_Historico_Estacao_Seca_2017_2024.tif
+NDVI_Medio_Historico_Estacao_Chuvosa_2017_2024.tif
+
+Produtos estatísticos
+
+NDVI médio por imóvel;
+
+NDVI médio por classe fundiária;
+
+perfil temporal mensal;
+
+curva histórica sazonal;
+
+estatísticas de precipitação;
+
+estatísticas de déficit hídrico.
+
+Produtos cartográficos
+
+mapa de NDVI e análise meteorológica da estação seca;
+
+mapa de NDVI e análise meteorológica da estação chuvosa;
+
+curva de vigor vegetativo por classe fundiária;
+
+sínteses estatísticas da dinâmica sazonal.
+
+23. Interpretação aplicada à Geografia Agrária
+
+O NDVI é utilizado como instrumento para compreender a dinâmica espacial da cobertura vegetal dentro de um território marcado por diferentes formas de apropriação da terra.
+
+A integração com as classes fundiárias permite observar se diferentes estratos de imóveis apresentam comportamentos distintos de vigor vegetativo. A integração com precipitação e déficit hídrico permite contextualizar essas diferenças dentro da sazonalidade climática.
+
+A análise deve, contudo, evitar relações causais simplificadas. O vigor vegetativo resulta da interação entre condições climáticas, características ambientais, cobertura da terra, manejo agrícola, disponibilidade hídrica e formas de uso e apropriação do território.
+
+Nesse sentido, o produto cartográfico constitui uma ferramenta de leitura territorial, e não uma medida isolada de produtividade ou de desempenho econômico dos imóveis.
+
+24. Considerações metodológicas
+
+Os produtos de NDVI devem ser interpretados como indicadores espectrais da condição da cobertura vegetal.
+
+A comparação entre períodos sazonais permite identificar padrões de redução ou aumento do vigor vegetativo, enquanto os dados meteorológicos fornecem contexto ambiental para a interpretação desses padrões.
+
+O cruzamento com classes fundiárias acrescenta uma dimensão territorial à análise, permitindo investigar a relação entre estrutura fundiária e comportamento da cobertura vegetal sem atribuir causalidade direta a uma única variável.
+
+Diferenças de resolução, escala, período e natureza dos dados também devem ser consideradas na interpretação integrada.
+
+25. Limitações
+
+Entre as principais limitações estão:
+
+diferenças temporais entre as bases;
+
+ausência de alguns meses na série mensal;
+
+diferenças de resolução espacial entre NDVI e dados meteorológicos;
+
+efeitos de cobertura de nuvens e qualidade das imagens;
+
+influência de solo exposto e diferentes tipos de cobertura sobre o NDVI;
+
+diferenças de manejo entre imóveis;
+
+impossibilidade de interpretar o NDVI isoladamente como produtividade agrícola;
+
+diferenças entre classes fundiárias quanto ao número e tamanho dos imóveis;
+
+limitações inerentes à representação espacial das bases cadastrais.
+
+26. Referências e bases de dados
+
+Sentinel-2
+
+Programa Copernicus / European Space Agency. Imagens utilizadas para geração dos produtos de NDVI.
+
+CHIRPS
+
+Climate Hazards Center InfraRed Precipitation with Station data. Dataset utilizado para obtenção da precipitação diária e cálculo da precipitação acumulada sazonal.
+
+TerraClimate
+
+Global high-resolution gridded dataset de variáveis climáticas e de balanço hídrico. Utilizado para caracterização do déficit hídrico climático.
+
+MapBiomas
+
+Dados de uso e cobertura da terra utilizados como referência territorial complementar.
+
+SICAR
+
+Base utilizada para espacialização dos imóveis rurais empregados na análise.
+
+27. Autor
+
+Matheus Santos de Oliveira
+
+Graduação em Geografia
+Projeto de Estágio Supervisionado em Geografia
+Distrito Federal — Brasil
+
+28. Licença e uso
+
+Este repositório possui finalidade de documentação, apresentação e portfólio do projeto.
+
+Os dados de terceiros permanecem sujeitos às respectivas licenças e condições de uso de seus provedores.
+
+Dados territoriais ou cadastrais que possam envolver informações sensíveis não são disponibilizados publicamente neste repositório.
