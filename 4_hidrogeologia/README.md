@@ -32,6 +32,7 @@ A finalidade é compreender a relação entre as condições naturais de recarga
 
 A organização metodológica separa três dimensões principais:
 
+```text
 CONDIÇÃO HIDROGEOLÓGICA
         │
         ├── Sistemas aquíferos
@@ -55,6 +56,7 @@ EXPLORAÇÃO HÍDRICA
                 │
                 ▼
        ANÁLISE INTEGRADA
+```
 
 2. Sistema de referência espacial
 
@@ -99,11 +101,13 @@ assentamentos rurais da reforma agrária contidos na área de estudo.
 
 As camadas hidrogeológicas foram organizadas segundo a hierarquia:
 
+```text
 Grupo
   │
   └── Sistema
         │
         └── Subsistema
+```
 
 Foram consideradas informações relativas a:
 
@@ -220,6 +224,7 @@ O Manual da ADASA também apresenta a organização das reservas subterrâneas p
 
 Os dois mapas possuem função distinta do mapa de risco:
 
+```text 
 Sistemas aquíferos
         │
         ▼
@@ -236,6 +241,7 @@ Risco de perda de recarga
         │
         ▼
 Pressão antrópica + exploração hídrica
+```
 
 Assim, os mapas de sistemas e subsistemas não devem ser confundidos com a classificação de risco. Eles representam a estrutura hidrogeológica sobre a qual os processos de recarga, produção e apropriação da água subterrânea são analisados.
 
@@ -325,6 +331,7 @@ O mapa de risco foi incorporado ao projeto QGIS como camada temática de referê
 
 A estrutura de análise é:
 
+```text 
 Sistemas e subsistemas
         │
         ▼
@@ -339,6 +346,7 @@ Compartimentação geomorfológica
         │
         ▼
 Risco de perda de recarga
+```
 
 O objetivo é preservar a distinção entre:
 
@@ -633,7 +641,7 @@ PostGIS
 SQL
 
 Fluxo:
-
+```text 
 Dados brutos
     │
     ▼
@@ -650,6 +658,7 @@ Consultas SQL
     │
     ▼
 Tabelas estatísticas
+```
 
 25. Tabela-mestre de indicadores
 
@@ -786,6 +795,7 @@ Os mapas 3 e 4 complementam os mapas de risco e pressão, permitindo compreender
 
 A interpretação integrada utiliza três componentes:
 
+```text
                  HIDROGEOLOGIA
                       │
           ┌───────────┴───────────┐
@@ -814,6 +824,7 @@ A interpretação integrada utiliza três componentes:
                       │
                       ▼
              Análise territorial
+```
 
 Essa estrutura permite observar a coincidência espacial entre:
 
@@ -898,7 +909,8 @@ cruzar áreas prioritárias e uso da terra;
 gerar o raster final de pressão antrópica.
 
 33. Fluxo técnico do projeto
-
+    
+```text
 ┌───────────────────────────────────────────────┐
 │                DADOS DE ENTRADA               │
 ├───────────────────────────────────────────────┤
@@ -946,6 +958,7 @@ gerar o raster final de pressão antrópica.
                         │
                         ▼
              Mapas + tabelas + gráficos
+```
 
 34. Interpretação aplicada à Geografia Agrária
 
