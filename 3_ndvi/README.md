@@ -220,11 +220,13 @@ Os meses de outubro e janeiro não possuem raster neste conjunto de dados.
 
 A sequência temporal utilizada é:
 
+```text
 Junho → Julho → Agosto → Setembro
                      ↓
                   Novembro
                      ↓
           Dezembro → Fevereiro → Março
+```
 
 9. Análise meteorológica sazonal
 
@@ -298,6 +300,7 @@ Foram documentadas:
 
 A integração entre NDVI, precipitação e déficit hídrico segue a lógica:
 
+```text 
               SAZONALIDADE
                    │
         ┌──────────┴──────────┐
@@ -314,6 +317,7 @@ A integração entre NDVI, precipitação e déficit hídrico segue a lógica:
                    │
                    ▼
                   NDVI
+```
 
 A finalidade é verificar como os padrões de vigor vegetativo se comportam sob diferentes condições de disponibilidade hídrica.
 
@@ -340,6 +344,7 @@ sicar.car_aoi
 
 Estrutura lógica:
 
+```text
 PROJETO_POSTGRES
 │
 ├── ndvi
@@ -352,6 +357,7 @@ PROJETO_POSTGRES
 │
 └── sicar
     └── car_aoi
+```
 
 14. Integração com imóveis rurais
 
@@ -359,6 +365,7 @@ Os rasters mensais são cruzados espacialmente com os imóveis rurais da base ut
 
 O fluxo é:
 
+```text
 Raster NDVI mensal
         │
         ▼
@@ -375,6 +382,7 @@ NDVI médio por imóvel e mês
         │
         ▼
 Agregação por classe fundiária
+```
 
 Essa etapa permite observar diferenças no comportamento médio do NDVI entre os diferentes estratos fundiários.
 
@@ -460,6 +468,7 @@ A distinção é importante para evitar que a curva histórica seja interpretada
 
 O fluxo completo do eixo é:
 
+```text 
 Sentinel-2
     │
     ▼
@@ -500,6 +509,7 @@ Google Earth Engine
         ▼                ▼
  Perfil temporal     Curva histórica
     de NDVI             sazonal
+```
 
 20. Reprodutibilidade
 
